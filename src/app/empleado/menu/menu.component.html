@@ -1,0 +1,27 @@
+
+<body>
+
+    <header>
+        <!-- Menú hamburguesa -->
+        <div class="menu-icon">&#9776;</div>
+
+        <!-- Bienvenida -->
+        <div class="welcome-text" *ngIf="qrModel">
+            <h1>Bienvenido/a {{ qrModel.nombreEmpleado }}</h1>
+            <p>Nos alegra tenerte aquí. Explora todas las opciones disponibles en nuestro menú para descubrir todas las características emocionantes que ofrecemos.</p>
+        </div>
+
+        <!-- Botón "Valida tu semana" -->
+        <div class="validate-button">
+            <button>Valida tu semana</button>
+        </div>
+
+        <!-- Imagen del código QR  -->
+        <div class="qrModel" *ngIf="qrModel">
+            <img [src]="'data:image/png;base64,' + qrModel.cogigoQR" alt="QR Code">
+        </div>
+    </header>
+
+    <!-- Contenido de la página aquí -->
+
+</body>
