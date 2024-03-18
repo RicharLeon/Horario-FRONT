@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { QrServiceService } from './services/qr-service.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +20,8 @@ import { FormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    SweetAlert2Module.forRoot()
   ],
   providers: [QrServiceService],
   bootstrap: [AppComponent]
