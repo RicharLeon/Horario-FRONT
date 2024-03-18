@@ -1,0 +1,222 @@
+
+<body>
+  <main>
+
+    <div class="container col-xxl-8 px-4 py-5" *ngIf="qrModel">
+      <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+        <div class="col-10 col-sm-8 col-lg-6">
+          <img [src]="'data:image/png;base64,' + qrModel.cogigoQR" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+        </div>
+        <div class="col-lg-6">
+          <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Bienvenido/a {{ qrModel.nombreEmpleado }}</h1>
+          <p class="lead">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Primary</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg px-4">Default</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="b-example-divider"></div>
+
+    <!-- Mis Proyectos -->
+    <div class="container px-4 py-5" id="featured-3">
+      <h2 class="pb-2 border-bottom">Mis Proyectos</h2>
+      <div class="row g-4 py-5 row-cols-1 row-cols-lg-3" >
+        <div class="feature col" *ngFor="let proyectos of proyectsForEmployee">
+          <div  class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+            <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"/></svg>
+          </div>
+          <h3 class="fs-2 text-body-emphasis">{{ proyectos.nombre }} </h3>
+          <p>{{ proyectos.descripcionProyecto }}</p>
+          <a href="#" class="icon-link">
+            Call to action
+            <svg class="bi"><use xlink:href="#chevron-right"/></svg>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="b-example-divider"></div>
+
+    <!-- Mi Equipo -->
+    <div class="container px-4 py-5" id="featured-3">
+      <h2 class="pb-2 border-bottom">Mi Equipo</h2>
+      <h5>The people eho make everything happen</h5>
+      <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="feature col" *ngFor="let equipo of mienbrosEquipo">
+          <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+            <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"/></svg>
+          </div>
+          <h3 class="fs-2 text-body-emphasis">{{ equipo.nombre }}</h3>
+          <p>{{ equipo.apellido }}</p>
+          <a href="#" class="icon-link">
+            Call to action
+            <svg class="bi"><use xlink:href="#chevron-right"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="b-example-divider"></div>
+
+    <!-- Mi Calendario -->
+    <div class="container my-5">
+      <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
+        <h2 class="pb-2 border-bottom">Mi calendario</h2>
+      <h5>The people eho make everything happen</h5>
+          <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title">Febrero 2024</h5>
+            </div>
+            <div class="card-body calendar-card-body">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th class="calendar-cell">D</th>
+                    <th class="calendar-cell">L</th>
+                    <th class="calendar-cell">M</th>
+                    <th class="calendar-cell">M</th>
+                    <th class="calendar-cell">J</th>
+                    <th class="calendar-cell">V</th>
+                    <th class="calendar-cell">S</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="calendar-cell"></td>
+                    <td class="calendar-cell"></td>
+                    <td class="calendar-cell"></td>
+                    <td class="calendar-cell">1</td>
+                    <td class="calendar-cell">2</td>
+                    <td class="calendar-cell">3</td>
+                    <td class="calendar-cell">4</td>
+                  </tr>
+                  <tr>
+                    <td class="calendar-cell">5</td>
+                    <td class="calendar-cell">6</td>
+                    <td class="calendar-cell">7</td>
+                    <td class="calendar-cell">8</td>
+                    <td class="calendar-cell">9</td>
+                    <td class="calendar-cell">10</td>
+                    <td class="calendar-cell">11</td>
+                  </tr>
+                  <tr>
+                    <td class="calendar-cell">12</td>
+                    <td class="calendar-cell">13</td>
+                    <td class="calendar-cell">14</td>
+                    <td class="calendar-cell">15</td>
+                    <td class="calendar-cell">16</td>
+                    <td class="calendar-cell">17</td>
+                    <td class="calendar-cell">18</td>
+                  </tr>
+                  <tr>
+                    <td class="calendar-cell">19</td>
+                    <td class="calendar-cell">20</td>
+                    <td class="calendar-cell">21</td>
+                    <td class="calendar-cell">22</td>
+                    <td class="calendar-cell">23</td>
+                    <td class="calendar-cell">24</td>
+                    <td class="calendar-cell">25</td>
+                  </tr>
+                  <tr>
+                    <td class="calendar-cell">26</td>
+                    <td class="calendar-cell">27</td>
+                    <td class="calendar-cell">28</td>
+                    <td class="calendar-cell"></td>
+                    <td class="calendar-cell"></td>
+                    <td class="calendar-cell"></td>
+                    <td class="calendar-cell"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button></button>
+    <br> 
+      </div>
+    </div>
+    
+    <div class="b-example-divider"></div>
+
+    <!-- Solicitud de Cambio -->
+    <div class="container col-xl-10 col-xxl-8 px-4 py-5">
+      <div class="row align-items-center g-lg-5 py-5">
+        <div class="col-lg-7 text-center text-lg-start">
+          <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Solicitar cambio de turno</h1>
+          <p class="col-lg-10 fs-4">"Este formulario está destinado para solicitar cambios de horario. Por favor, especifique el día al que desea cambiar el horario en la descripción correspondiente."</p>
+        </div>
+        <div class="col-md-10 mx-auto col-lg-5">
+          <form (ngSubmit)="submitForm()" #form="ngForm" class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+            <div class="form-floating mb-3">
+              <!-- Campo oculto para almacenar el ID del empleado solicitante -->
+              <input type="hidden" [(ngModel)]="solicitudCambioHorario.idEmpleadoSolicitante" [ngModelOptions]="{ standalone: true }" [value]="qrModel?.idEmpleado">
+              
+              <!-- Campo de entrada para mostrar el nombre del empleado solicitante -->
+              <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" [value]="qrModel?.nombreEmpleado" disabled>
+              <label for="floatingInput">Empleado Solicitante</label>
+            </div>
+            <div class="form-floating mb-3">
+              <select class="form-select" id="empleadoSelect" [(ngModel)]="solicitudCambioHorario.idEmpleadoCambio" name="empleadoSelect">
+                <option *ngFor="let empleado of infoAllEmpleado" [ngValue]="empleado.idEmpleado">{{ empleado.nombre }} {{ empleado.apellido }}</option>
+              </select>
+              <label for="empleadoSelect">Empleado Cambio</label>
+            </div>
+            <div aria-label="Default select example" class="form-floating mb-3">
+              <select class="form-select" [(ngModel)]="solicitudCambioHorario.diaCambio" name="diaCambio">
+                <option selected>Seleccione un dia</option>
+                <option value="1">Lunes</option>
+                <option value="2">Martes</option>
+                <option value="3">Miercoles</option>
+                <option value="4">Jueves</option>
+                <option value="5">Viernes</option>
+              </select>
+              <label for="floatingSelect">Dia de Cambio</label>
+            </div>
+            <div class="form-floating mb-3"> 
+              <textarea class="form-control" id="Descripcion" rows="3" placeholder="Escriba una descripcion" id="floatingTextarea2" style="height: 100px"  [(ngModel)]="solicitudCambioHorario.descripcion" name="descripcion"></textarea>
+              <label for="Descripcion">Descripción de la Solicitud</label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit" [disabled]="!form.valid || !solicitudCambioHorario.idEmpleadoCambio || solicitudCambioHorario.diaCambio === 'Seleccione un dia' || !solicitudCambioHorario.descripcion">Solicitar</button>
+            <hr class="my-4">
+            <small class="text-body-secondary">Al hacer clic en Solicitar, usted acepta los términos de uso.</small>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+  
+    <div class="b-example-divider"></div>
+
+    <div class="bg-dark text-secondary px-4 py-5 text-center">
+      <div class="py-5">
+        <h1 class="display-5 fw-bold text-white">Dark color hero</h1>
+        <div class="col-lg-6 mx-auto">
+          <p class="fs-5 mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s
+            most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system,
+            extensive prebuilt components, and powerful JavaScript plugins.</p>
+          <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <button type="button" class="btn btn-outline-info btn-lg px-4 me-sm-3 fw-bold">Custom button</button>
+            <button type="button" class="btn btn-outline-light btn-lg px-4">Secondary</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="b-example-divider mb-0"></div>
+
+  </main>
+  <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
+</body>
