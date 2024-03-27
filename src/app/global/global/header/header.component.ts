@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-menu-global',
-  templateUrl: './menu-global.component.html',
-  styleUrls: ['./menu-global.component.css']
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css']
 })
-export class MenuGlobalComponent {
+export class HeaderComponent {
   showButton: boolean = false;
 
   showGetStartedButton(event: Event) {
