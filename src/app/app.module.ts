@@ -10,11 +10,13 @@ import { QrServiceService } from './services/qr-service.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { MenuGlobalComponent } from './global/menu-global/menu-global.component';
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
-    MenuSuperComponent
+    MenuSuperComponent,
+    MenuGlobalComponent
   ],
   imports: [
     BrowserModule,
