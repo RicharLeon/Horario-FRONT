@@ -13,14 +13,12 @@ import Swal from 'sweetalert2';
 import { ProyectosForEmployee } from 'src/app/models/proyectosEmpleado.interface';
 import { MienbrosEquiposInterface } from 'src/app/models/mienbrosEquipos.interface';
 
-
-
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  selector: 'app-new-solicitud',
+  templateUrl: './new-solicitud.component.html',
+  styleUrls: ['./new-solicitud.component.css']
 })
-export class MenuComponent implements OnInit{
+export class NewSolicitudComponent {
   @ViewChild('form', { static: false }) form!: NgForm;
 
 qrModel: QrModel | undefined;
@@ -163,7 +161,5 @@ solicitudCambioHorario: CambioHorarioInterface = {};
 
 
   }
-
-
 
 }

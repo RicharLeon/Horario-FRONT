@@ -13,6 +13,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MenuGlobalComponent } from './global/menu-global/menu-global.component';
 import { FooterComponent } from './global/global/footer/footer.component';
 import { HeaderComponent } from './global/global/header/header.component';
+import { NewSolicitudComponent } from './empleado/new-solicitud/new-solicitud.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +21,8 @@ import { HeaderComponent } from './global/global/header/header.component';
     MenuSuperComponent,
     MenuGlobalComponent,
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    NewSolicitudComponent
   ],
   imports: [
     BrowserModule,

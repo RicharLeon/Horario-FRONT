@@ -1,0 +1,61 @@
+<app-header>
+</app-header>
+
+<div class="container col-xl-10 col-xxl-8 px-4 py-2">
+    <div class="row align-items-center g-lg-5 py-5">
+      <div class="col-lg-7 text-center text-lg-start">
+        <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Solicitar cambio de turno</h1>
+        <p class="col-lg-10 fs-4">"Este formulario está destinado para solicitar cambios de horario. Por favor,
+          especifique el día al que desea cambiar el horario en la descripción correspondiente."</p>
+      </div>
+      <div class="col-md-10 mx-auto col-lg-5">
+        <form (ngSubmit)="submitForm()" #form="ngForm" class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+          <div class="form-floating mb-3">
+            <!-- Campo oculto para almacenar el ID del empleado solicitante -->
+            <input type="hidden" [(ngModel)]="solicitudCambioHorario.idEmpleadoSolicitante"
+              [ngModelOptions]="{ standalone: true }" [value]="qrModel?.idEmpleado">
+
+            <!-- Campo de entrada para mostrar el nombre del empleado solicitante -->
+            <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com"
+              [value]="qrModel?.nombreEmpleado" disabled>
+            <label for="floatingInput">Empleado Solicitante</label>
+          </div>
+          <div class="form-floating mb-3">
+            <select class="form-select" id="empleadoSelect" [(ngModel)]="solicitudCambioHorario.idEmpleadoCambio"
+              name="empleadoSelect">
+              <option *ngFor="let empleado of infoAllEmpleado" [ngValue]="empleado.idEmpleado">{{ empleado.nombre }}
+                {{ empleado.apellido }}</option>
+            </select>
+            <label for="empleadoSelect">Empleado Cambio</label>
+          </div>
+          <div aria-label="Default select example" class="form-floating mb-3">
+            <select class="form-select" [(ngModel)]="solicitudCambioHorario.diaCambio" name="diaCambio">
+              <option selected>Seleccione un dia</option>
+              <option value="1">Lunes</option>
+              <option value="2">Martes</option>
+              <option value="3">Miercoles</option>
+              <option value="4">Jueves</option>
+              <option value="5">Viernes</option>
+            </select>
+            <label for="floatingSelect">Dia de Cambio</label>
+          </div>
+          <div class="form-floating mb-3">
+            <textarea class="form-control" id="Descripcion" rows="3" placeholder="Escriba una descripcion"
+              id="floatingTextarea2" style="height: 100px" [(ngModel)]="solicitudCambioHorario.descripcion"
+              name="descripcion"></textarea>
+            <label for="Descripcion">Descripción de la Solicitud</label>
+          </div>
+          <div class="flex justify-center space-x-4">
+            <button class=" button" type="submit" [disabled]="!form.valid || !solicitudCambioHorario.idEmpleadoCambio || solicitudCambioHorario.diaCambio === 'Seleccione un dia' || !solicitudCambioHorario.descripcion">Solicitar</button>
+            <button class=" button" type="submit">cancelar</button>
+          </div>
+
+          <hr class="my-4">
+          <small class="text-body-secondary">Al hacer clic en Solicitar, usted acepta los términos de uso.</small>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
