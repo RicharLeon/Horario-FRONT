@@ -1,44 +1,5 @@
 <body>
-    <header>
-        <nav class="wrapper h-24 flex items-center justify-between ">
-
-
-
-            <input type="checkbox" id="menu" class="peer hidden">
-
-
-            <label for="menu"
-                class="bg-open-menu w-8 h-5 bg-cover bg-center cursor-pointer peer-checked:bg-close-menu transition-all z-50"></label>
-
-            <div
-                class="fixed inset-0 bg-gradient-to-b from-white/70 to-black/70 translate-x-full peer-checked:translate-x-0 transition-transform">
-
-                <ul
-                    class="absolute inset-x-0 top-24 p-5 bg-white w-[90%] mx-auto rounded-md h-max text-center grid gap-6 font-bold shadow-2xl">
-
-                    <li><a href="#">primera
-
-                        </a></li>
-                    <li><a href="#">segunda</a></li>
-                    <li><a href="#">TERCERA</a></li>
-                    <li><a href="#">CUARTA </a></li>
-                </ul>
-            </div>
-
-
-            <a *ngIf="!showButton" href="#" class="w-1/3 max-w-[58px]" (click)="showGetStartedButton($event)">
-                <img src="/assets/accelerate-svgrepo-com.svg" alt="Accelerate SVG">
-            </a>
-
-
-            <a href="#" class="button shadow-sm shadow-sky-900" *ngIf="showButton" (click)="hideGetStartedButton()">Get
-                started'
-            </a>
-
-
-
-        </nav>
-    </header>
+    <app-header></app-header>
 
     <main class="container mx-auto flex flex-col md:flex-row items-center justify-center mt-6 mb-16">
     <div class="md:w-1/2 flex flex-col justify-center items-center md:items-center md:text-left mb-4 md:mb-0">
@@ -51,12 +12,7 @@
 </main>
 
 
-    <footer class="bg-gray-900 text-white fixed bottom-0 w-full p-0">
-        <section class="h-20 flex items-center justify-center">
-            <!-- Contenido del footer aquí -->
-            © 2024 Todos los derechos reservados
-        </section>
-    </footer>
+<app-footer></app-footer>
 
 
 </body>
