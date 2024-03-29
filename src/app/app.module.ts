@@ -14,6 +14,8 @@ import { MenuGlobalComponent } from './global/menu-global/menu-global.component'
 import { FooterComponent } from './global/global/footer/footer.component';
 import { HeaderComponent } from './global/global/header/header.component';
 import { NewSolicitudComponent } from './empleado/new-solicitud/new-solicitud.component';
+import { SolicitudesComponent } from './empleado/solicitudes/solicitudes.component';
+import { ReportesComponent } from './supervisor/reportes/reportes.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +24,9 @@ import { NewSolicitudComponent } from './empleado/new-solicitud/new-solicitud.co
     MenuGlobalComponent,
     FooterComponent,
     HeaderComponent,
-    NewSolicitudComponent
+    NewSolicitudComponent,
+    SolicitudesComponent,
+    ReportesComponent
   ],
   imports: [
     BrowserModule,
