@@ -30,6 +30,15 @@ export class CambioHorarioService {
     }));
   }
 
+  getChangeScheduleForIdEmployee(id: Number):Observable<CambioHorarioConsultaInterface>{
+    const url = `${this.apiUrl}/empleado/ ${id}`;
+    return this.http.get<CambioHorarioConsultaInterface>(url)
+    .pipe(catchError(err => {
+      console.error(err);
+      throw err;
+    }));
+  }
+
 
 
 

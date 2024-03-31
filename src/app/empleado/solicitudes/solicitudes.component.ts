@@ -25,6 +25,7 @@ export class SolicitudesComponent {
 
   infoEmpleado: EmpleadoInterface | undefined;
   esAdministrador: boolean = false;
+  cambioHorarioForEmployee: CambioHorarioConsultaInterface[] = [];
   cambioHorarioConsulta: CambioHorarioConsultaInterface[] = [];
   infoAllEmpleado: EmpleadoInterface[] = [];
   proyectsForEmployee: ProyectosForEmployee[] = [];
@@ -40,10 +41,12 @@ export class SolicitudesComponent {
   ngOnInit(): void {
     const qrId = this.route.snapshot.paramMap.get('id');
 
+    if(qrId){
+      this.getSolicitudesForIdEmployee(parseInt(qrId));
+    }
 
-     
-      this.getAllSolicitudes();
-    
+    this.getAllSolicitudes();
+
   }
 
   getAllSolicitudes(): void {
@@ -54,6 +57,25 @@ export class SolicitudesComponent {
           this.cambioHorarioConsulta = info;
         } else {
           this.cambioHorarioConsulta = [];
+        }
+        console.log(this.cambioHorarioConsulta, "todas las solicitudes");
+      }),
+      catchError(err => {
+        console.error(err);
+        return throwError(err);
+      })
+    ).subscribe();
+
+  }
+
+  getSolicitudesForIdEmployee(id:Number): void {
+    this.cambioHorario.getChangeScheduleForIdEmployee(id).pipe(
+      tap(info => {
+        console.log(info, "datos cambio horario for id Employee");
+        if (Array.isArray(info)) {
+          this.cambioHorarioForEmployee = info;
+        } else {
+          this.cambioHorarioForEmployee = [];
         }
         console.log(this.cambioHorarioConsulta, "todas las solicitudes");
       }),
@@ -81,12 +103,10 @@ export class SolicitudesComponent {
     </div>
   </div>
     `;
-  
+
     Swal.fire({
       title: '<span class="">Información del cambio de horario</span>',
       html: `<div class="text-left">${contenidoHTML}</div>`,
-      icon: 'info',
-      iconHtml: '<i class="fas fa-info-circle" style="font-size: 20px;"></i>', 
       confirmButtonText: 'Cerrar',
       width: 'auto',
       customClass: {

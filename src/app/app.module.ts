@@ -20,6 +20,7 @@ import { CambioHorarioComponent } from './supervisor/cambio-horario/cambio-horar
 import { CalendarioComponent } from './empleado/calendario/calendario.component';
 import { LoginComponent } from './auth/login/login.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { SpinnerComponent } from './global/global/spinner/spinner.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +34,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     ReportesComponent,
     CambioHorarioComponent,
     CalendarioComponent,
-    LoginComponent
+    LoginComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
