@@ -71,13 +71,12 @@ export class SolicitudesComponent {
   getSolicitudesForIdEmployee(id:Number): void {
     this.cambioHorario.getChangeScheduleForIdEmployee(id).pipe(
       tap(info => {
-        console.log(info, "datos cambio horario for id Employee");
         if (Array.isArray(info)) {
           this.cambioHorarioForEmployee = info;
         } else {
           this.cambioHorarioForEmployee = [];
         }
-        console.log(this.cambioHorarioConsulta, "todas las solicitudes");
+        console.log(this.cambioHorarioForEmployee, "solicitudes por empleado");
       }),
       catchError(err => {
         console.error(err);

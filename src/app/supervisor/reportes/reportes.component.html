@@ -44,7 +44,7 @@
             <span>Descargar Excel</span>
         </button>
         
-        <button class="button mt-2">
+        <button class="button mt-2" (click)="downloadAllReportsPdf()" [disabled]="descargaEstaEnProceso">
             Descargar PDF
         </button>
     </div>

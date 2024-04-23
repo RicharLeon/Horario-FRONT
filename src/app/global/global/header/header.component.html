@@ -10,21 +10,28 @@
             <label for="menu"
                 class="bg-open-menu w-8 h-5 bg-cover bg-center cursor-pointer peer-checked:bg-close-menu transition-all z-50"></label>
 
-            <div
-                class="fixed inset-0 bg-gradient-to-b from-white/70 to-black/70 translate-x-full peer-checked:translate-x-0 transition-transform z-40">
+            <div *ngFor="let opcion of opcionesConSubmenus"
+                class="fixed inset-0 bg-gradient-to-b from-white/70 to-black/70 -translate-x-full peer-checked:translate-x-0 transition-transform z-40" >
 
                 <ul
-                    class="absolute inset-x-0 top-24 p-5 bg-white w-[90%] mx-auto rounded-md h-max text-center grid gap-6 font-bold shadow-2xl ">
+                    class="absolute inset-x-0 top-24 p-5 bg-white w-[90%] mx-auto rounded-md h-max text-center grid gap-6 font-bold shadow-2xl text-xl ">
 
-                    <li><a href="#">primera</a></li>
-                    <li><a href="#">segunda</a></li>
-                    <li><a href="#">TERCERA</a></li>
-                    <li><a href="#">CUARTA </a></li>
+                    <li href="" class="block py-10 px-4 leading-9" 
+                        (click)="toggleSubMenu(opcion)"                       
+                        ><a>{{ opcion.opcion.nombreMenuOpcion }} <ng-icon name="heroChevronDoubleLeft"></ng-icon></a>
+                        <ul *ngIf="opcion.mostrarSubmenu" >
+                            <li *ngFor="let submenu of opcion.submenusRelacionados">
+                                <a href="#" class="block leading-7 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-250">{{ submenu.nombreMenuOpcion }}</a>
+                            </li>
+                        </ul>
+                    </li>
+
+
                 </ul>
             </div>
 
 
-            <a *ngIf="!showButton" href="#" class="w-1/3 max-w-[58px]" (click)="showGetStartedButton($event)">
+            <a *ngIf="!showButton" href="#" class="w-1/3 max-w-[58px] z-50" (click)="showGetStartedButton($event)">
                 <img src="/assets/accelerate-svgrepo-com.svg" alt="Accelerate SVG">
             </a>
 

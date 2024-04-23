@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { QrModel } from 'src/app/models/qr.interface';
 
 @Component({
   selector: 'app-menu-global',
@@ -7,6 +8,7 @@ import { Component } from '@angular/core';
 })
 export class MenuGlobalComponent {
   showButton: boolean = false;
+  qrModel: QrModel | undefined;
 
   showGetStartedButton(event: Event) {
     event.preventDefault(); // Evita el comportamiento predeterminado del enlace

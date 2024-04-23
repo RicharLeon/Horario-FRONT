@@ -74,27 +74,7 @@ export class ReportesComponent {
     });
   }
 
-  downloadReport() {
-    const url = 'http://localhost:8081/api/reportes/empleados';
 
-    // Realiza una solicitud GET para obtener el archivo
-    this.http.get(url, { responseType: 'blob' }).subscribe((response: Blob) => {
-      // Crea un objeto URL para el blob
-      const blob = new Blob([response], { type: 'application/xlsx' }); // Cambia el tipo MIME según el tipo de archivo
-
-      // Crea un enlace temporal y lo oculta
-      const link = document.createElement('a');
-      link.href = window.URL.createObjectURL(blob);
-      link.download = 'reporte.xlsx'; // Nombre del archivo a descargar
-
-      // Simula un clic en el enlace para descargar el archivo
-      link.click();
-
-      // Limpia el enlace y el objeto URL
-      window.URL.revokeObjectURL(link.href);
-    });
-
-  }
 
   downloadAllReports() {
 
@@ -109,6 +89,18 @@ export class ReportesComponent {
     }, 1500);
 
     
+  }
+
+  downloadAllReportsPdf() {
+    this.descargaEstaEnProceso = true;
+
+    setTimeout(() => {
+      this.reporteServices.downloadReportPdf().subscribe((response: Blob) => {
+        this.downloadOfFilesGeneral(response, ".pdf");
+
+        this.descargaEstaEnProceso = false;
+      });
+    }, 1500);
   }
 
 

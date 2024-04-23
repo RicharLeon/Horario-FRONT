@@ -27,4 +27,9 @@ export class ReportesService {
     return this.http.get(url, {responseType: 'blob'});
   }
 
+  downloadReportPdf(): Observable<Blob>{
+    const url = `${this.apiUrl}/general`
+    return this.http.get(url, {responseType: 'blob'});
+  }
+
 }

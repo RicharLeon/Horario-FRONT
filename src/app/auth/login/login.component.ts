@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { catchError, tap, throwError } from 'rxjs';
+import { LoginInterface } from 'src/app/models/login.interface';
+import { AuthService } from 'src/app/services/auth.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-login',
@@ -8,33 +14,67 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 })
 export class LoginComponent implements OnInit {
 
+  loginForm: FormGroup = new FormGroup({
+    username: new FormControl("", Validators.required),
+    password: new FormControl("", Validators.required)
+  });
 
-  form: FormGroup = new FormGroup({
-    email: new FormControl("", [Validators.required, this.customeEmailValidator])
-  })
+  constructor(private authServices: AuthService, private route: ActivatedRoute) {
+   }
 
-  getError(control: any): string {
-    if (control.errors?.required && control.touched)
-      return 'This field is requiered !!';
-    else if (control.errors?.emailError && control.touched)
-      return 'Please enter valid email address!';
+  ngOnInit(): void {
+  }
+
+  postLoginUser(): void {
+    const loginInterface: LoginInterface = this.loginForm.value; 
+    this.authServices.postLoginUser(loginInterface).pipe(
+      tap(info => {
+        localStorage.setItem('tokenpapues', JSON.stringify(info.token));
+      }),
+      catchError(err => {
+        console.error(err);     
+        if (err.status === 401) {
+          this.messageUserDoesNotExist();
+        } else {
+          this.messageErrNoControll(err.message);
+          console.error('Error en la solicitud:', err.message);
+        }
+        return throwError(err);
+      })
+    ).subscribe();
+  }
+
+  getErrorUsername(control: any): string {
+    if (control.errors?.required && control.touched){
+      return 'Este campo es requerido !!';
+    }else if(control.value.length < 5 && control.touched){
+      return 'El nombre de usuario debe contener minimo 5 caracteres'
+    }    
     else return '';
   }
 
-  customeEmailValidator(control: AbstractControl) {
-    const pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,20}$/;
-    const value = control.value;
-    if (!pattern.test(value) && control.touched)
-      return {
-        emailError: true
-      }
-    else return null;
+  getErrorPassword(control: any): string {
+    if (control.errors?.required && control.touched){
+      return 'Este campo es requerido !!';
+    }
+    else return '';
   }
 
-  constructor() { }
-
-  ngOnInit(): void {
-
+  messageUserDoesNotExist(){
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "El usuario no existe!",
+    });
   }
+
+  messageErrNoControll(err: any){
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Error no controlado!"+err,
+    });
+  }
+
 
 }

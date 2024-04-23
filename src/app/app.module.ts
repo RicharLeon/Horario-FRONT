@@ -21,6 +21,12 @@ import { CalendarioComponent } from './empleado/calendario/calendario.component'
 import { LoginComponent } from './auth/login/login.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { SpinnerComponent } from './global/global/spinner/spinner.component';
+import { NgIconsModule } from '@ng-icons/core';
+import { featherAirplay } from '@ng-icons/feather-icons';
+import {  heroChevronDoubleLeft, heroUsers } from '@ng-icons/heroicons/outline';
+import { ionIceCream } from '@ng-icons/ionicons';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,12 +45,15 @@ import { SpinnerComponent } from './global/global/spinner/spinner.component';
   ],
   imports: [
     BrowserModule,
+    NgIconsModule.withIcons({ featherAirplay, heroUsers, heroChevronDoubleLeft }),
+    MatIconModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
     FullCalendarModule,
     ReactiveFormsModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [QrServiceService],
   bootstrap: [AppComponent]
