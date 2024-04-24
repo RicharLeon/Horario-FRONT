@@ -29,4 +29,19 @@ export class AuthService {
       throw err;
     }));
   }
+
+  getToken():String | null{
+    return localStorage.getItem("token");
+  }
+
+  isLoggedIn():boolean{
+    const token = this.getToken();
+    return !!token;
+  }
+
+  logout(): void{
+    localStorage.removeItem('token');
+  }
+
+
 }

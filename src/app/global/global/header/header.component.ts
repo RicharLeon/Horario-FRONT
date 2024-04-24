@@ -61,7 +61,7 @@ export class HeaderComponent implements OnInit{
 
     this.opcionesConSubmenus = opcionesPrincipales.map(opcion => {
       const submenusRelacionados = submenus.filter(submenu => submenu.idPadreMenuOpcion === opcion.idMenuOpcion);
-      return { opcion, submenusRelacionados};
+      return { opcion, submenusRelacionados, mostrarSubmenu: true};
     });
 
     console.log('Opciones principales:', opcionesPrincipales);

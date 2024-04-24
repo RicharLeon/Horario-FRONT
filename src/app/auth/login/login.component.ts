@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
     const loginInterface: LoginInterface = this.loginForm.value; 
     this.authServices.postLoginUser(loginInterface).pipe(
       tap(info => {
-        localStorage.setItem('tokenpapues', JSON.stringify(info.token));
+        localStorage.setItem('token', JSON.stringify(info.token));
       }),
       catchError(err => {
         console.error(err);     

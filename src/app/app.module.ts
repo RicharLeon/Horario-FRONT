@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MenuComponent } from './empleado/menu/menu.component';
 import { MenuSuperComponent } from './supervisor/menu-super/menu-super.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { QrServiceService } from './services/qr-service.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -27,6 +27,7 @@ import {  heroChevronDoubleLeft, heroUsers } from '@ng-icons/heroicons/outline';
 import { ionIceCream } from '@ng-icons/ionicons';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
+import { JwtInterceptorService } from './services/jwt-interceptor.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,7 +56,9 @@ import { MatIconModule } from '@angular/material/icon';
     SweetAlert2Module.forRoot(),
     BrowserAnimationsModule
   ],
-  providers: [QrServiceService],
+  providers: [QrServiceService
+ //   { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

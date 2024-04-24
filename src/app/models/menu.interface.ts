@@ -10,5 +10,6 @@ export interface MenuInterface {
     claveMenuOpcion: String,
     idMenuGrupo: Number,
     nombreMenuGrupo: String,
-    estadoMenuGrupo: String
+    estadoMenuGrupo: String,
+    
 }
