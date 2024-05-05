@@ -10,25 +10,31 @@
             <label for="menu"
                 class="bg-open-menu w-8 h-5 bg-cover bg-center cursor-pointer peer-checked:bg-close-menu transition-all z-50"></label>
 
-            <div 
-                class="fixed inset-0 bg-gradient-to-b from-white/70 to-black/70 -translate-x-full peer-checked:translate-x-0 transition-transform z-40" >
+            <div
+                class="fixed inset-0 bg-gradient-to-b from-white/70 to-black/70 -translate-x-full peer-checked:translate-x-0 transition-transform z-40">
 
                 <ul
                     class="absolute inset-x-0 top-24 p-5 bg-white w-[90%] mx-auto rounded-md h-max text-center grid gap-1 font-bold shadow-2xl text-xl ">
 
-                    <li *ngFor="let opcion of opcionesConSubmenus" href="" class="block py-1 px-4 leading-10" 
-                        (click)="toggleSubMenu(opcion)"                       
-                        ><a>{{ opcion.opcion.nombreMenuOpcion }}  <mat-icon [class.rotate-180]="!opcion.mostrarSubmenu">keyboard_double_arrow_left</mat-icon></a>
-                        <ul *ngIf="!opcion.mostrarSubmenu" >
+                    <li class="block py-1 px-4 leading-10 cursor-pointer" (click)="returnMenu()"><a >Inicio
+                            <mat-icon>whatshot</mat-icon></a>
+
+                    </li>
+                    <li *ngFor="let opcion of opcionesConSubmenus" href="" class="block py-1 px-4 leading-10 cursor-sw-resize"
+                        (click)="toggleSubMenu(opcion)"><a>{{ opcion.opcion.nombreMenuOpcion }} <mat-icon
+                                [class.rotate-180]="!opcion.mostrarSubmenu">keyboard_double_arrow_left</mat-icon></a>
+                        <ul *ngIf="!opcion.mostrarSubmenu">
                             <li *ngFor="let submenu of opcion.submenusRelacionados">
-                                <a [routerLink]="submenu.rutaMenuOpcion"class="block leading-7 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-250">{{ submenu.nombreMenuOpcion }}
+                                <a [routerLink]="submenu.rutaMenuOpcion"
+                                    class="block leading-7 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-250">{{
+                                    submenu.nombreMenuOpcion }}
                                     <mat-icon class="relative">{{ submenu.iconoMenuOpcion }}</mat-icon>
                                 </a>
                             </li>
                         </ul>
                     </li>
 
-                   
+
                 </ul>
             </div>
 

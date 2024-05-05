@@ -14,7 +14,7 @@ import { SpinnerComponent } from './global/global/spinner/spinner.component';
 const routes: Routes = [
   {path: 'menu/:id', component: MenuComponent},
   {path: 'menu-super', component: MenuSuperComponent},
-  {path: 'inicio', component: MenuGlobalComponent},
+  {path: 'inicio/:id', component: MenuGlobalComponent},
   {path: 'new-solicitud/:id', component: NewSolicitudComponent},
   {path: 'solicitudes/:id', component: SolicitudesComponent},
   {path: 'reportes', component: ReportesComponent},

@@ -1,19 +1,30 @@
 <body>
-    <app-header></app-header>
-
-    <main class="container mx-auto flex flex-col md:flex-row items-center justify-center mt-3 mb-4">
-    <div class="md:w-1/2 flex flex-col justify-center items-center md:items-center md:text-left mb-4 md:mb-0">
-        <h1 class="text-4xl font-bold text-gray-900">¡Buenos días!</h1>
-        <p class="text-gray-700">Espero que tengas un día maravilloso.</p>
-    </div>
-    <div class="md:w-1/2">
+    <app-header [idEmpelado]="idEmpelado">
         
-        <img src="\assets\imagen-fondo-todos.jpeg" alt="Imagen" class="mx-auto md:mr-0 md:ml-auto ">
-    </div>
-</main>
+    </app-header>
+
+    <main *ngIf="infoEmpleado" class="container mx-auto flex flex-col md:flex-row items-center justify-center mt-3 mb-4">
+        <div class="md:w-1/2 flex flex-col justify-center items-center md:items-center md:text-left mb-4 md:mb-0">
+            <h1 class="text-4xl font-bold text-gray-900">¡Buenos días! Bienvenido/a {{ infoEmpleado.nombre }}</h1>
+            <p class="text-gray-700 text-2xl">Espero que tengas un día maravilloso.</p>
+        </div>
+        <div class="md:w-1/2">
+            <ng-template #other_content>
+                <div *ngIf="qrModel" class="mx-auto md:mr-0 md:ml-auto">
+                    <img [src]="'data:image/png;base64,' + qrModel.cogigoQR" class="d-block mx-lg-auto img-fluid"
+                        alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+                </div>
+            </ng-template>
 
 
-<app-footer></app-footer>
+            <img *ngIf="isAdministrator else other_content" src="\assets\imagen-fondo-todos.jpeg" alt="Imagen"
+                class="mx-auto md:mr-0 md:ml-auto ">
+
+        </div>
+    </main>
+
+
+    <app-footer></app-footer>
 
 
 </body>

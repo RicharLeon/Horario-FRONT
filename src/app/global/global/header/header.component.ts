@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
 import { MenuInterface } from 'src/app/models/menu.interface';
 import { MenuService } from 'src/app/services/menu.service';
@@ -10,7 +11,9 @@ import { MenuService } from 'src/app/services/menu.service';
 })
 export class HeaderComponent implements OnInit{
 
-  constructor(private menuServices: MenuService){}
+  @Input() idEmpelado: number | undefined ;
+
+  constructor(private menuServices: MenuService, private router: Router){}
 
   ngOnInit(): void {
     
@@ -67,6 +70,13 @@ export class HeaderComponent implements OnInit{
     console.log('Opciones principales:', opcionesPrincipales);
     console.log('Submenus', submenus);
     console.log('Opciones con submenus relacionados', this.opcionesConSubmenus);
+  }
+
+  returnMenu(){
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/inicio/', this.idEmpelado]);
+    });
+    
   }
 
 }

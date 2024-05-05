@@ -34,10 +34,9 @@ export class LoginComponent implements OnInit {
       catchError(err => {
         console.error(err);     
         if (err.status === 401) {
-          this.messageUserDoesNotExist();
+          this.messageUserDoesNotExist(err.error.errorMessage);
         } else {
           this.messageErrNoControll(err.message);
-          console.error('Error en la solicitud:', err.message);
         }
         return throwError(err);
       })
@@ -60,11 +59,11 @@ export class LoginComponent implements OnInit {
     else return '';
   }
 
-  messageUserDoesNotExist(){
+  messageUserDoesNotExist(mess: String){
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "El usuario no existe!",
+      text: 	`	${mess}`,
     });
   }
 
@@ -72,7 +71,7 @@ export class LoginComponent implements OnInit {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "Error no controlado!"+err,
+      text: "Error no controlado! "+err,
     });
   }
 

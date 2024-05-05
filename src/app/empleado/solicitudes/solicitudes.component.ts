@@ -24,7 +24,7 @@ export class SolicitudesComponent {
   qrModel: QrModel | undefined;
 
   infoEmpleado: EmpleadoInterface | undefined;
-  esAdministrador: boolean = false;
+  esAdministrador: boolean = true;
   cambioHorarioForEmployee: CambioHorarioConsultaInterface[] = [];
   cambioHorarioConsulta: CambioHorarioConsultaInterface[] = [];
   infoAllEmpleado: EmpleadoInterface[] = [];
