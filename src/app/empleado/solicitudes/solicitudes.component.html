@@ -23,7 +23,7 @@
       </tr>
     </thead>
     <tbody class="bg-white divide-y divide-gray-200">
-      <tr *ngFor="let cambio of cambioHorarioConsulta">
+      <tr *ngFor="let cambio of (esAdministrador ? cambioHorarioConsulta : cambioHorarioForEmployee)">
         <td class="px-6 py-4 whitespace-nowrap">{{ cambio.idCambioHorario }}</td>
         <td class="px-6 py-4 whitespace-nowrap">{{ cambio.nombreEmpleadoSolicitante }}</td>
         <td class="px-6 py-4 whitespace-nowrap">{{ cambio.nombreEmpleadoCambio }}</td>
@@ -32,16 +32,46 @@
         <td class="px-6 py-4 whitespace-nowrap">{{ cambio.estado }}</td>
 
 
-        <td *ngIf="esAdministrador" class="px-6 py-4 whitespace-nowrap">
+        <td *ngIf="esAdministrador" (click)="responder()" class="px-6 py-4 whitespace-nowrap">
           <button class="button py-2 px-4">
             Responder
           </button>
         </td>
+        <td *ngIf="esAdministrador" (click)="responder2(cambio)" class="px-6 py-4 whitespace-nowrap">
+          <button class="button py-2 px-4">
+            Editar
+          </button>
+        </td>
+
+        <!-- solicitud-popup.component.html -->
+        <div  *ngIf="respuesta" class="fixed inset-0 flex items-center justify-center" >
+          <div   class="fixed inset-0 bg-gray-400 opacity-50"></div>
+          <div (click)="handleClickInside($event)" class=" relative bg-white rounded-lg shadow-lg p-20 max-w-md">
+            <h2 class="text-lg font-bold mb-4">Respuesta a Solicitud</h2>
+            <form>
+              <div class="mb-4">
+                <select class="input-basic shadow-sm">
+                  <option value="" disabled selected>Selecciona una respuesta</option>
+                  <option value="alta">Aceptar</option>
+                  <option value="media">Denegar</option>
+                </select>
+                <textarea class="input-basic shadow-sm rounded-3xl mt-2" rows="4"
+                  placeholder="Escribe tu respuesta aquí..."></textarea>
+              </div>
+              <div class="flex justify-end">
+                <button type="button" class="button mr-4" (click)="cancelar()">Cancelar</button>
+                <button type="submit" class="button">Enviar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+
+
+
+        
         <td *ngIf="!esAdministrador" class="px-6 py-4 whitespace-nowrap">
-
-
           <button class="button py-2 px-4" (click)="mostrarDetalleUsuario(cambio)">
-            
             Ver detalle
           </button>
         </td>
@@ -52,7 +82,7 @@
   </table>
 
 
-  <div *ngIf="!esAdministrador"><button class="button mt-2">
+  <div *ngIf="!esAdministrador"><button class="button mt-2" [routerLink]="['/new-solicitud', qrId]">
       Nueva Solicitud
     </button></div>
 

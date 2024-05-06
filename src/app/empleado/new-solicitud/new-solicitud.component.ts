@@ -35,16 +35,16 @@ solicitudCambioHorario: CambioHorarioInterface = {};
     private empleadoInfo: EmpleadoService,
     private cambioHorario: CambioHorarioService,
     private route: ActivatedRoute) { }
-
+qrId = this.route.snapshot.paramMap.get('id');
   ngOnInit(): void {
-    const qrId = this.route.snapshot.paramMap.get('id');
+   
 
-    if(qrId) {
-      this.getQrEmpleadoId(Number(qrId));
-      this.getIdEmpleadoInfo(Number(qrId));
+    if(this.qrId) {
+      this.getQrEmpleadoId(Number(this.qrId));
+      this.getIdEmpleadoInfo(Number(this.qrId));
       this.getAllEmpleados();
-      this.getProyectsForEmployee(Number(qrId));
-      this.getEquiposById(Number(qrId));
+      this.getProyectsForEmployee(Number(this.qrId));
+      this.getEquiposById(Number(this.qrId));
     }
   }
 

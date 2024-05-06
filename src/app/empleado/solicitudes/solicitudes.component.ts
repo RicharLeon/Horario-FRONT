@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Directive, ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
 import { CambioHorarioInterface } from 'src/app/models/cambioHorario.interface';
 import { EmpleadoInterface } from 'src/app/models/empelado.interface';
@@ -18,6 +18,8 @@ import { CambioHorarioConsultaInterface } from 'src/app/models/cambioHorarioCons
   templateUrl: './solicitudes.component.html',
   styleUrls: ['./solicitudes.component.css']
 })
+
+
 export class SolicitudesComponent {
   @ViewChild('form', { static: false }) form!: NgForm;
 
@@ -25,6 +27,7 @@ export class SolicitudesComponent {
 
   infoEmpleado: EmpleadoInterface | undefined;
   esAdministrador: boolean = true;
+  respuesta: boolean = false;
   cambioHorarioForEmployee: CambioHorarioConsultaInterface[] = [];
   cambioHorarioConsulta: CambioHorarioConsultaInterface[] = [];
   infoAllEmpleado: EmpleadoInterface[] = [];
@@ -36,13 +39,14 @@ export class SolicitudesComponent {
   constructor(private qrServices: QrServiceService,
     private empleadoInfo: EmpleadoService,
     private cambioHorario: CambioHorarioService,
-    private route: ActivatedRoute) { }
-
+    private route: ActivatedRoute,
+    private elementRef: ElementRef,
+    private router: Router) { }
+  qrId = this.route.snapshot.paramMap.get('id');
   ngOnInit(): void {
-    const qrId = this.route.snapshot.paramMap.get('id');
 
-    if(qrId){
-      this.getSolicitudesForIdEmployee(parseInt(qrId));
+    if (this.qrId) {
+      this.getSolicitudesForIdEmployee(parseInt(this.qrId));
     }
 
     this.getAllSolicitudes();
@@ -68,7 +72,7 @@ export class SolicitudesComponent {
 
   }
 
-  getSolicitudesForIdEmployee(id:Number): void {
+  getSolicitudesForIdEmployee(id: Number): void {
     this.cambioHorario.getChangeScheduleForIdEmployee(id).pipe(
       tap(info => {
         if (Array.isArray(info)) {
@@ -113,6 +117,31 @@ export class SolicitudesComponent {
       }
     });
 
+  }
+
+  responder() {
+    this.respuesta = true;
+  }
+  responder2(cambio: CambioHorarioConsultaInterface): void {
+    this.router.navigate(['/resonder-solicitud'], { queryParams: { idCambioHorario: cambio.idCambioHorario } });
+  }
+
+  cancelar() {
+    console.log('jeje');
+    this.respuesta = false; // Limpiar la respuesta
+  }
+
+  handleClickInside(event: MouseEvent): void {
+    console.log('Clic dentro del elemento:', event.target);
+  }
+  handleClickOutside(event: MouseEvent): void {
+    if (this.respuesta) {
+      console.log('Clic fuera del elemento:', event.target);
+
+      this.respuesta = false;
+      
+    }
+    
   }
 
 

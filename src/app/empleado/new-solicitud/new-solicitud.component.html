@@ -6,7 +6,11 @@
         <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Solicitar cambio de turno</h1>
         <p class="col-lg-10 fs-4">"Este formulario está destinado para solicitar cambios de horario. Por favor,
           especifique el día al que desea cambiar el horario en la descripción correspondiente."</p>
-      </div>
+          <button class="button mt-2" [routerLink]="['/solicitudes', qrId]">
+            Regresar
+          </button>
+        </div>
+      
       <div class="col-md-10 mx-auto col-lg-5">
         <form (ngSubmit)="submitForm()" #form="ngForm" class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
           <div class="form-floating mb-3">
@@ -46,7 +50,6 @@
           </div>
           <div class="flex justify-center space-x-4">
             <button class=" button" type="submit" [disabled]="!form.valid || !solicitudCambioHorario.idEmpleadoCambio || solicitudCambioHorario.diaCambio === 'Seleccione un dia' || !solicitudCambioHorario.descripcion">Solicitar</button>
-            <button class=" button" type="submit">cancelar</button>
           </div>
 
           <hr class="my-4">

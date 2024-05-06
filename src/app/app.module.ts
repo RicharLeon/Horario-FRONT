@@ -28,6 +28,7 @@ import { ionIceCream } from '@ng-icons/ionicons';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { JwtInterceptorService } from './services/jwt-interceptor.service';
+import { ResponderCambioHorarioComponent } from './supervisor/responder-cambio-horario/responder-cambio-horario.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +43,8 @@ import { JwtInterceptorService } from './services/jwt-interceptor.service';
     CambioHorarioComponent,
     CalendarioComponent,
     LoginComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    ResponderCambioHorarioComponent
   ],
   imports: [
     BrowserModule,

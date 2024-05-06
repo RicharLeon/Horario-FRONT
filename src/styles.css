@@ -33,6 +33,10 @@
     @apply border w-full py-2.5 px-4 text-gray-700 leading-tight rounded-full
   }
 
+  .input-basic-disable {
+    @apply border w-full border-gray-300 bg-gray-100 text-gray-700 py-2.5 px-4  leading-tight rounded-full cursor-not-allowed opacity-60;
+  }
+
   .b-example-divider {
     width: 100%;
     height: 3rem;
