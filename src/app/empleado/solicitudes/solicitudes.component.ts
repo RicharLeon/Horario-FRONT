@@ -20,7 +20,7 @@ import { CambioHorarioConsultaInterface } from 'src/app/models/cambioHorarioCons
 })
 
 
-export class SolicitudesComponent {
+export class SolicitudesComponent implements OnInit{
   @ViewChild('form', { static: false }) form!: NgForm;
 
   qrModel: QrModel | undefined;
@@ -35,6 +35,11 @@ export class SolicitudesComponent {
   mienbrosEquipo: MienbrosEquiposInterface[] = [];
   selectedEmpleado: EmpleadoInterface | null = null;
   solicitudCambioHorario: CambioHorarioInterface = {};
+
+  totalItems: number = 0;
+  currentPage: number = 0;
+  pageSize: number = 10;
+  maxSize: number = 10;
 
   constructor(private qrServices: QrServiceService,
     private empleadoInfo: EmpleadoService,
@@ -54,11 +59,15 @@ export class SolicitudesComponent {
   }
 
   getAllSolicitudes(): void {
-    this.cambioHorario.getAllDataRequestSchedule().pipe(
+    this.cambioHorario.getAllDataRequestSchedule(this.currentPage, this.pageSize).pipe(
       tap(info => {
         console.log(info, "datos solicitud");
-        if (Array.isArray(info)) {
-          this.cambioHorarioConsulta = info;
+        if (info && Array.isArray(info.content)) {
+          this.cambioHorarioConsulta = info.content;
+          if (info.totalElements) {
+            this.totalItems = info.totalElements;
+            console.log("DOGOS", this.totalItems);
+          }
         } else {
           this.cambioHorarioConsulta = [];
         }
@@ -70,6 +79,10 @@ export class SolicitudesComponent {
       })
     ).subscribe();
 
+  }
+  onPageChange(page: number): void {
+    this.currentPage = page -1;
+    this.getAllSolicitudes();
   }
 
   getSolicitudesForIdEmployee(id: Number): void {

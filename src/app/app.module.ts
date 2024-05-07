@@ -29,6 +29,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { JwtInterceptorService } from './services/jwt-interceptor.service';
 import { ResponderCambioHorarioComponent } from './supervisor/responder-cambio-horario/responder-cambio-horario.component';
+import { NgxPaginationModule  } from 'ngx-pagination';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,6 +49,7 @@ import { ResponderCambioHorarioComponent } from './supervisor/responder-cambio-h
   ],
   imports: [
     BrowserModule,
+    NgxPaginationModule,
     NgIconsModule.withIcons({ featherAirplay, heroUsers, heroChevronDoubleLeft }),
     MatIconModule,
     AppRoutingModule,
@@ -58,7 +60,8 @@ import { ResponderCambioHorarioComponent } from './supervisor/responder-cambio-h
     SweetAlert2Module.forRoot(),
     BrowserAnimationsModule
   ],
-  providers: [QrServiceService
+  providers: [QrServiceService,
+    SolicitudesComponent
  //   { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]

@@ -23,7 +23,8 @@
       </tr>
     </thead>
     <tbody class="bg-white divide-y divide-gray-200">
-      <tr *ngFor="let cambio of (esAdministrador ? cambioHorarioConsulta : cambioHorarioForEmployee)">
+      <tr
+        *ngFor="let cambio of (esAdministrador ? cambioHorarioConsulta : cambioHorarioForEmployee) | paginate: { itemsPerPage: pageSize, currentPage: currentPage, totalItems: totalItems.toString() }">
         <td class="px-6 py-4 whitespace-nowrap">{{ cambio.idCambioHorario }}</td>
         <td class="px-6 py-4 whitespace-nowrap">{{ cambio.nombreEmpleadoSolicitante }}</td>
         <td class="px-6 py-4 whitespace-nowrap">{{ cambio.nombreEmpleadoCambio }}</td>
@@ -84,6 +85,11 @@
       <!-- Más filas aquí -->
     </tbody>
   </table>
+  <div>
+    <pagination-controls (pageChange)="onPageChange($event)" [(ngModel)]="currentPage" previousLabel="Anterior"
+      nextLabel="Siguiente" [maxSize]="maxSize" boundaryLinks="true">
+    </pagination-controls>
+  </div>
 
 
   <div *ngIf="!esAdministrador"><button class="button mt-2" [routerLink]="['/new-solicitud', qrId]">

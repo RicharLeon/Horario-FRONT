@@ -9,5 +9,7 @@ export interface CambioHorarioConsultaInterface {
     fechaSolicitud?: Date,
     estado?: boolean,
     descripcion?: String,
-    mensaje?: String
+    mensaje?: String,
+    content?: [],
+    totalElements?: number
 }

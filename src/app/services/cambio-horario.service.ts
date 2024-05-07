@@ -21,8 +21,8 @@ export class CambioHorarioService {
     }));
   }
 
-  getAllDataRequestSchedule():Observable<CambioHorarioConsultaInterface>{
-    const url = `${this.apiUrl}/empleados`;
+  getAllDataRequestSchedule(page: Number, size: Number):Observable<CambioHorarioConsultaInterface>{
+    const url = `${this.apiUrl}/empleados?page=${page}&size=${size}`;
     return this.http.get<CambioHorarioConsultaInterface>(url)
     .pipe(catchError(err => {
       console.error(err);
