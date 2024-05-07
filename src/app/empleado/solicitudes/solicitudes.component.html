@@ -29,7 +29,11 @@
         <td class="px-6 py-4 whitespace-nowrap">{{ cambio.nombreEmpleadoCambio }}</td>
         <td class="px-6 py-4 whitespace-nowrap">{{ cambio.nombreEmpleadoAprobador }}</td>
         <td class="">{{ cambio.descripcion }}</td>
-        <td class="px-6 py-4 whitespace-nowrap">{{ cambio.estado }}</td>
+        <td class="px-6 py-4 whitespace-nowrap">{{ cambio.fechaSolicitud }}</td>
+        <td class="px-6 py-4 whitespace-nowrap">
+          <ng-container *ngIf="cambio.estado; else denegado">Aceptado</ng-container>
+          <ng-template #denegado>Denegado</ng-template>
+        </td>
 
 
         <td *ngIf="esAdministrador" (click)="responder()" class="px-6 py-4 whitespace-nowrap">
@@ -44,8 +48,8 @@
         </td>
 
         <!-- solicitud-popup.component.html -->
-        <div  *ngIf="respuesta" class="fixed inset-0 flex items-center justify-center" >
-          <div   class="fixed inset-0 bg-gray-400 opacity-50"></div>
+        <div *ngIf="respuesta" class="fixed inset-0 flex items-center justify-center">
+          <div class="fixed inset-0 bg-gray-400 opacity-50"></div>
           <div (click)="handleClickInside($event)" class=" relative bg-white rounded-lg shadow-lg p-20 max-w-md">
             <h2 class="text-lg font-bold mb-4">Respuesta a Solicitud</h2>
             <form>
@@ -69,7 +73,7 @@
 
 
 
-        
+
         <td *ngIf="!esAdministrador" class="px-6 py-4 whitespace-nowrap">
           <button class="button py-2 px-4" (click)="mostrarDetalleUsuario(cambio)">
             Ver detalle

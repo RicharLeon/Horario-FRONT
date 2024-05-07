@@ -22,7 +22,7 @@ export class CambioHorarioService {
   }
 
   getAllDataRequestSchedule():Observable<CambioHorarioConsultaInterface>{
-    const url = `${this.apiUrl}`;
+    const url = `${this.apiUrl}/empleados`;
     return this.http.get<CambioHorarioConsultaInterface>(url)
     .pipe(catchError(err => {
       console.error(err);
@@ -48,6 +48,14 @@ export class CambioHorarioService {
     }));
   }    
 
+  putResponseSolicitud(cambioHorario: CambioHorarioInterface, id: Number):Observable<CambioHorarioInterface>{
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.put<CambioHorarioInterface>(url, cambioHorario)
+    .pipe(catchError(err => {
+      console.error(err);
+      throw err;
+    }));
+  }
 
 
 

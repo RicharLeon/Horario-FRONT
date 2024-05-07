@@ -15,11 +15,10 @@
         <form (ngSubmit)="submitForm()" #form="ngForm" class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
           <div class="form-floating mb-3">
             <!-- Campo oculto para almacenar el ID del empleado solicitante -->
-            <input type="hidden" [(ngModel)]="solicitudCambioHorario.idEmpleadoSolicitante"
-              [ngModelOptions]="{ standalone: true }" [value]="qrModel?.idEmpleado">
-
+            <input type="hidden"  name="idEmpleadoSolicitante" [(ngModel)]="solicitudCambioHorario.idEmpleadoSolicitante"
+              [ngModelOptions]="{ standalone: false }" [value]="qrModel?.idEmpleado">
             <!-- Campo de entrada para mostrar el nombre del empleado solicitante -->
-            <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com"
+            <input type="text" class="form-control" id="floatingInput"
               [value]="qrModel?.nombreEmpleado" disabled>
             <label for="floatingInput">Empleado Solicitante</label>
           </div>
@@ -44,7 +43,7 @@
           </div>
           <div class="form-floating mb-3">
             <textarea class="form-control" id="Descripcion" rows="3" placeholder="Escriba una descripcion"
-              id="floatingTextarea2" style="height: 100px" [(ngModel)]="solicitudCambioHorario.descripcion"
+              id="floatingTextarea2" style="height: 100px" [(ngModel)]="solicitudCambioHorario.descripcion" 
               name="descripcion"></textarea>
             <label for="Descripcion">Descripción de la Solicitud</label>
           </div>
@@ -55,7 +54,7 @@
           <hr class="my-4">
           <small class="text-body-secondary">Al hacer clic en Solicitar, usted acepta los términos de uso.</small>
         </form>
-
+        {{ solicitudCambioHorario | json }}
       </div>
     </div>
   </div>

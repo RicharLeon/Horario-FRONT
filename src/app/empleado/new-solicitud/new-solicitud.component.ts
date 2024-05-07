@@ -21,25 +21,32 @@ import { MienbrosEquiposInterface } from 'src/app/models/mienbrosEquipos.interfa
 export class NewSolicitudComponent {
   @ViewChild('form', { static: false }) form!: NgForm;
 
-qrModel: QrModel | undefined;
+  qrModel: QrModel | undefined;
 
-infoEmpleado: EmpleadoInterface | undefined;
 
-infoAllEmpleado: EmpleadoInterface[] = [];
-proyectsForEmployee: ProyectosForEmployee[] = [];
-mienbrosEquipo: MienbrosEquiposInterface[] = [];
-selectedEmpleado: EmpleadoInterface | null = null;
-solicitudCambioHorario: CambioHorarioInterface = {};
+  infoEmpleado: EmpleadoInterface | undefined;
 
-  constructor(private qrServices: QrServiceService, 
+  infoAllEmpleado: EmpleadoInterface[] = [];
+  proyectsForEmployee: ProyectosForEmployee[] = [];
+  mienbrosEquipo: MienbrosEquiposInterface[] = [];
+  selectedEmpleado: EmpleadoInterface | null = null;
+  solicitudCambioHorario: CambioHorarioInterface = {};
+  qrId = this.route.snapshot.paramMap.get('id');
+  constructor(private qrServices: QrServiceService,
     private empleadoInfo: EmpleadoService,
     private cambioHorario: CambioHorarioService,
-    private route: ActivatedRoute) { }
-qrId = this.route.snapshot.paramMap.get('id');
-  ngOnInit(): void {
-   
+    private route: ActivatedRoute) {
 
-    if(this.qrId) {
+    this.solicitudCambioHorario = {
+      idEmpleadoSolicitante: Number(this.qrId),
+      estado: null
+    }
+  }
+
+  ngOnInit(): void {
+
+
+    if (this.qrId) {
       this.getQrEmpleadoId(Number(this.qrId));
       this.getIdEmpleadoInfo(Number(this.qrId));
       this.getAllEmpleados();
@@ -49,17 +56,17 @@ qrId = this.route.snapshot.paramMap.get('id');
   }
 
 
-  getQrEmpleadoId(id: number): void{
+  getQrEmpleadoId(id: number): void {
     this.qrServices.getQrEmpleado(id)
-    .subscribe(
-      
-      qr => {
-        console.log(qr);
-      this.qrModel = qr;
-    },
-    err => {
-      console.log(err);
-    })
+      .subscribe(
+
+        qr => {
+          console.log("este es el qr", qr);
+          this.qrModel = qr;
+        },
+        err => {
+          console.log(err);
+        })
   }
 
   getIdEmpleadoInfo(id: number): void {
@@ -93,7 +100,7 @@ qrId = this.route.snapshot.paramMap.get('id');
     ).subscribe();
   }
 
-  getEquiposById(id: number):void {
+  getEquiposById(id: number): void {
     this.empleadoInfo.getEquipoByIdEmployee(id).pipe(
       tap(info => {
         console.log(info, "datos equipos del equipo");
@@ -131,7 +138,8 @@ qrId = this.route.snapshot.paramMap.get('id');
 
 
 
-  submitForm(){
+  submitForm() {
+    this.solicitudCambioHorario.estado = null;
 
     Swal.fire({
       title: "Estas seguro de enviar la Solicitud ?",
@@ -145,7 +153,7 @@ qrId = this.route.snapshot.paramMap.get('id');
         this.cambioHorario.postNewRequestSchedule(this.solicitudCambioHorario).subscribe(
           response => {
             console.log('Respuesta del servidor:', response);
-            this.form.resetForm(); 
+            this.form.resetForm();
           },
           error => {
             console.error('Error en la solicitud:', error);
@@ -156,8 +164,8 @@ qrId = this.route.snapshot.paramMap.get('id');
       }
     });
 
-    
-    
+
+
 
 
   }

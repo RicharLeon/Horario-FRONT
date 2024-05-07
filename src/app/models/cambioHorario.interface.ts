@@ -4,5 +4,6 @@ export interface CambioHorarioInterface {
     idEmpleadoCambio?: Number,
     diaCambio?: String,
     descripcion?: String,
-    estado?: boolean
+    estado?: boolean | null,
+    mensaje?: String
 }

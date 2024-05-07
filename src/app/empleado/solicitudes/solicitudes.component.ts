@@ -127,7 +127,6 @@ export class SolicitudesComponent {
   }
 
   cancelar() {
-    console.log('jeje');
     this.respuesta = false; // Limpiar la respuesta
   }
 
