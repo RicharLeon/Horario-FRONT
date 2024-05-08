@@ -24,7 +24,7 @@
     </thead>
     <tbody class="bg-white divide-y divide-gray-200">
       <tr
-        *ngFor="let cambio of (esAdministrador ? cambioHorarioConsulta : cambioHorarioForEmployee) | paginate: { itemsPerPage: pageSize, currentPage: currentPage, totalItems: totalItems.toString() }">
+        *ngFor="let cambio of (esAdministrador ? cambioHorarioConsulta : cambioHorarioForEmployee) | paginate: { itemsPerPage: pageSize, currentPage: 10, totalItems: totalItems }">
         <td class="px-6 py-4 whitespace-nowrap">{{ cambio.idCambioHorario }}</td>
         <td class="px-6 py-4 whitespace-nowrap">{{ cambio.nombreEmpleadoSolicitante }}</td>
         <td class="px-6 py-4 whitespace-nowrap">{{ cambio.nombreEmpleadoCambio }}</td>
@@ -76,7 +76,7 @@
 
 
         <td *ngIf="!esAdministrador" class="px-6 py-4 whitespace-nowrap">
-          <button class="button py-2 px-4" (click)="mostrarDetalleUsuario(cambio)">
+          <button class="button py-2 px-4" (click)="mostrarDetalleDeSolicitud(cambio)">
             Ver detalle
           </button>
         </td>
@@ -99,5 +99,50 @@
 
 </div>
 
+<div class="container mx-auto mt-16 mb-16 overflow-x-auto">
+  <mat-table #table [dataSource]="dataSource">
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="ID SOLICITUD">
+      <mat-header-cell *matHeaderCellDef> ID SOLICITUD </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.idCambioHorario}} </mat-cell>
+    </ng-container>
+
+    <!-- RICHAR Column -->
+    <ng-container matColumnDef="NOMBRE SOLICITANTE">
+      <mat-header-cell *matHeaderCellDef> NOMBRE SOLICITANTE </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.nombreEmpleadoSolicitante}} </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="NOMBRE EMPLEADO CAMBIO">
+      <mat-header-cell *matHeaderCellDef> NOMBRE EMPLEADO CAMBIO </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.nombreEmpleadoCambio}} </mat-cell>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="NOMBRE APROBADOR">
+      <mat-header-cell *matHeaderCellDef> NOMBRE APROBADOR </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.nombreEmpleadoAprobador}} </mat-cell>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="DESCRIPCIÓN">
+      <mat-header-cell *matHeaderCellDef> DESCRIPCIÓN </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.descripcion}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 20]"
+                 [showFirstLastButtons]="true">
+  </mat-paginator>
+</div>
+
+{{   cambioHorarioConsulta | json }}
 
 <app-footer></app-footer>

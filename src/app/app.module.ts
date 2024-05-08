@@ -30,6 +30,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { JwtInterceptorService } from './services/jwt-interceptor.service';
 import { ResponderCambioHorarioComponent } from './supervisor/responder-cambio-horario/responder-cambio-horario.component';
 import { NgxPaginationModule  } from 'ngx-pagination';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { EjemploTablasComponent } from './empleado/ejemplo-tablas/ejemplo-tablas.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +51,8 @@ import { NgxPaginationModule  } from 'ngx-pagination';
     CalendarioComponent,
     LoginComponent,
     SpinnerComponent,
-    ResponderCambioHorarioComponent
+    ResponderCambioHorarioComponent,
+    EjemploTablasComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +65,12 @@ import { NgxPaginationModule  } from 'ngx-pagination';
     FullCalendarModule,
     ReactiveFormsModule,
     SweetAlert2Module.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxDatatableModule,
+    CommonModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [QrServiceService,
     SolicitudesComponent

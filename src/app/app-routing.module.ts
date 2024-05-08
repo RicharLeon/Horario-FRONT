@@ -11,6 +11,7 @@ import { CalendarioComponent } from './empleado/calendario/calendario.component'
 import { LoginComponent } from './auth/login/login.component';
 import { SpinnerComponent } from './global/global/spinner/spinner.component';
 import { ResponderCambioHorarioComponent } from './supervisor/responder-cambio-horario/responder-cambio-horario.component';
+import { EjemploTablasComponent } from './empleado/ejemplo-tablas/ejemplo-tablas.component';
 
 const routes: Routes = [
   {path: 'menu/:id', component: MenuComponent},
@@ -23,7 +24,8 @@ const routes: Routes = [
   {path: 'calendario', component: CalendarioComponent},
   {path: 'login', component: LoginComponent},
   {path: 'spinner', component: SpinnerComponent},
-  {path: 'resonder-solicitud', component: ResponderCambioHorarioComponent}
+  {path: 'resonder-solicitud', component: ResponderCambioHorarioComponent},
+  {path: 'ejemplo/:id', component: EjemploTablasComponent}
 ];
 
 @NgModule({
