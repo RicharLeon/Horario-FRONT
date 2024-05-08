@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { CambioHorarioConsultaInterface } from 'src/app/models/cambioHorarioConsulta.interface';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-solicitudes',
@@ -17,15 +18,22 @@ import { MatTableDataSource } from '@angular/material/table';
 
 
 export class SolicitudesComponent implements OnInit {
-  @ViewChild('form', { static: false }) form!: NgForm;
+
 
   //TABLA NUEVA
   displayedColumns = ['ID SOLICITUD',
     'NOMBRE SOLICITANTE',
     'NOMBRE EMPLEADO CAMBIO',
-    'NOMBRE APROBADOR', 'DESCRIPCIÓN'];
-
+    'NOMBRE APROBADOR',
+    
+     'DESCRIPCIÓN','FECHA DE SOLICITUD',
+    'ESTADO SOLICITUD',
+    'ACCIONES'
+  ];
+  
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
+  @ViewChild(MatSort) matsort !:MatSort;
+
 
   dataSource: MatTableDataSource<CambioHorarioConsultaInterface> = new MatTableDataSource<CambioHorarioConsultaInterface>();
 
@@ -33,15 +41,16 @@ export class SolicitudesComponent implements OnInit {
   infoEmpleado: EmpleadoInterface | undefined;
   esAdministrador: boolean = false;
   respuesta: boolean = false;
-  cambioHorarioForEmployee: CambioHorarioConsultaInterface[] = [];
+  cambioHorarioConsultaForEmployee: CambioHorarioConsultaInterface[] = [];
   cambioHorarioConsulta: CambioHorarioConsultaInterface[] = [];
   qrId = this.route.snapshot.paramMap.get('id');
 
 
-  totalItems: string | number = 0;
-  currentPage: number = 0;
-  pageSize: number = 10;
-  maxSize: number = 10;
+  // Propiedades de la paginación
+  pageSize = 10; // Tamaño de página predeterminado
+  currentPage = 0; // Página actual
+  pageSizeOptions: number[] = [5, 10, 25];
+  totalElement: string | number = 0;
 
   constructor(
     private cambioHorario: CambioHorarioService,
@@ -49,50 +58,54 @@ export class SolicitudesComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    if (this.qrId) {
-      this.getSolicitudesForIdEmployee(parseInt(this.qrId));
+    if (this.esAdministrador) {
+      this.getAllSolicitudes(this.pageSizeOptions[0]);
+    }else{
+       this.getSolicitudesForIdEmployee(Number(this.qrId), this.pageSizeOptions[0]);
     }
-    this.getAllSolicitudes();
   }
 
-  getAllSolicitudes(): void {
-    this.cambioHorario.getAllDataRequestSchedule(this.currentPage, this.pageSize).pipe(
+  getAllSolicitudes(size: number): void {
+    this.cambioHorario.getAllDataRequestSchedule(this.currentPage, size).pipe(
       tap(info => {
-        console.log(info, "datos solicitud");
         if (info && Array.isArray(info.content)) {
           this.cambioHorarioConsulta = info.content;
-          this.dataSource = new MatTableDataSource<CambioHorarioConsultaInterface>(this.cambioHorarioConsulta);
           if (info.totalElements) {
-            this.totalItems = info.totalElements;
-            console.log("DOGOS", this.totalItems);
+            this.totalElement = info.totalElements;
+            if (this.paginator) {
+              this.paginator.length = this.totalElement; // Establecer el total de elementos en el paginador
+              this.dataSource.sort = this.matsort;
+            }
           }
+          this.dataSource = new MatTableDataSource<CambioHorarioConsultaInterface>(this.cambioHorarioConsulta);
         } else {
           this.cambioHorarioConsulta = [];
         }
-        console.log(this.cambioHorarioConsulta, "todas las solicitudes");
       }),
       catchError(err => {
         console.error(err);
         return throwError(err);
       })
     ).subscribe();
-
-  }
-  onPageChange(page: number): void {
-    this.currentPage = page - 1;
-    this.getAllSolicitudes();
   }
 
-  getSolicitudesForIdEmployee(id: Number): void {
-    this.cambioHorario.getChangeScheduleForIdEmployee(id, 1, 1).pipe(
+  getSolicitudesForIdEmployee(id: Number, size: number): void {
+    this.cambioHorario.getChangeScheduleForIdEmployee(id, this.currentPage, size).pipe(
       tap(info => {
-        if (Array.isArray(info)) {
-          this.cambioHorarioForEmployee = info;
-          this.dataSource = new MatTableDataSource<CambioHorarioConsultaInterface>(this.cambioHorarioForEmployee);
+        if (Array.isArray(info.content)) {
+          this.cambioHorarioConsultaForEmployee = info.content;
+          if (info.totalElements) {
+            this.totalElement = info.totalElements;
+            if (this.paginator) {
+              this.paginator.length = this.totalElement; // Establecer el total de elementos en el paginador
+              this.dataSource.sort = this.matsort;
+            }
+          }
+          this.dataSource = new MatTableDataSource<CambioHorarioConsultaInterface>(this.cambioHorarioConsultaForEmployee);
         } else {
-          this.cambioHorarioForEmployee = [];
+          this.cambioHorarioConsultaForEmployee = [];
         }
-        console.log(this.cambioHorarioForEmployee, "solicitudes por empleado");
+        console.log(this.cambioHorarioConsultaForEmployee, "solicitudes por empleado");
       }),
       catchError(err => {
         console.error(err);
@@ -100,6 +113,24 @@ export class SolicitudesComponent implements OnInit {
       })
     ).subscribe();
 
+  }
+
+  onPageChange(event: any): void {
+    const pageSize = event.pageSize;
+    const newPageIndex = event.pageIndex;
+    const totalPages = Math.ceil(Number(this.totalElement) / pageSize);
+    console.log(totalPages)
+    if (newPageIndex >= totalPages) {
+      this.currentPage = totalPages - 1;
+    } else {
+      this.currentPage = newPageIndex;
+    }
+    if (this.esAdministrador) {
+      this.getAllSolicitudes(pageSize);
+    }else{
+      this.getSolicitudesForIdEmployee(Number(this.qrId), pageSize);
+    }
+    
   }
 
   mostrarDetalleDeSolicitud(usuario: CambioHorarioConsultaInterface) {

@@ -32,7 +32,7 @@ export class EjemploTablasComponent {
 
   //FIN
   infoEmpleado: EmpleadoInterface | undefined;
-  esAdministrador: boolean = true;
+  esAdministrador: boolean = false;
   respuesta: boolean = false;
   cambioHorarioConsultaForEmployee: CambioHorarioConsultaInterface[] = [];
   cambioHorarioConsulta: CambioHorarioConsultaInterface[] = [];

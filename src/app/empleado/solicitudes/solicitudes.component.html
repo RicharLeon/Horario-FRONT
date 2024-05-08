@@ -1,30 +1,23 @@
 <app-header>
 </app-header>
 
-<div class="container mx-auto mt-16 mb-16 overflow-x-auto ">
+
+
+<div class="container mx-auto mt-14 mb-16 overflow-x-auto ">
   <h2 class="text-2xl font-bold mb-4">Lista de Solicitudes</h2>
-  <table class="min-w-full divide-y divide-gray-200">
+  <table matSort class="min-w-full divide-y divide-gray-200"> 
+    
     <thead>
       <tr>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Id
-          Solicitud</th>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre
-          Solicitante</th>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre
-          Empleado Cambio</th>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre
-          Aprobador</th>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-          Descripción</th>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado
-          Solicitud</th>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones
-        </th>
+        <ng-container *ngFor="let column of displayedColumns">
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            {{ column }}</th>
+        </ng-container>
       </tr>
     </thead>
-    <tbody class="bg-white divide-y divide-gray-200">
-      <tr
-        *ngFor="let cambio of (esAdministrador ? cambioHorarioConsulta : cambioHorarioForEmployee) | paginate: { itemsPerPage: pageSize, currentPage: 10, totalItems: totalItems }">
+
+    <ng-container>
+      <tr *ngFor="let cambio of (esAdministrador ? cambioHorarioConsulta : cambioHorarioConsultaForEmployee) ">
         <td class="px-6 py-4 whitespace-nowrap">{{ cambio.idCambioHorario }}</td>
         <td class="px-6 py-4 whitespace-nowrap">{{ cambio.nombreEmpleadoSolicitante }}</td>
         <td class="px-6 py-4 whitespace-nowrap">{{ cambio.nombreEmpleadoCambio }}</td>
@@ -35,114 +28,28 @@
           <ng-container *ngIf="cambio.estado; else denegado">Aceptado</ng-container>
           <ng-template #denegado>Denegado</ng-template>
         </td>
-
-
-        <td *ngIf="esAdministrador" (click)="responder()" class="px-6 py-4 whitespace-nowrap">
-          <button class="button py-2 px-4">
+        <td class="px-6 py-4 whitespace-nowrap block">
+          <button *ngIf="esAdministrador" class="button py-2 px-4">
             Responder
           </button>
-        </td>
-        <td *ngIf="esAdministrador" (click)="responder2(cambio)" class="px-6 py-4 whitespace-nowrap">
-          <button class="button py-2 px-4">
+          <button *ngIf="!esAdministrador" class="button py-2 px-4 mt-2" (click)="responder2(cambio)">
             Editar
           </button>
-        </td>
-
-        <!-- solicitud-popup.component.html -->
-        <div *ngIf="respuesta" class="fixed inset-0 flex items-center justify-center">
-          <div class="fixed inset-0 bg-gray-400 opacity-50"></div>
-          <div (click)="handleClickInside($event)" class=" relative bg-white rounded-lg shadow-lg p-20 max-w-md">
-            <h2 class="text-lg font-bold mb-4">Respuesta a Solicitud</h2>
-            <form>
-              <div class="mb-4">
-                <select class="input-basic shadow-sm">
-                  <option value="" disabled selected>Selecciona una respuesta</option>
-                  <option value="alta">Aceptar</option>
-                  <option value="media">Denegar</option>
-                </select>
-                <textarea class="input-basic shadow-sm rounded-3xl mt-2" rows="4"
-                  placeholder="Escribe tu respuesta aquí..."></textarea>
-              </div>
-              <div class="flex justify-end">
-                <button type="button" class="button mr-4" (click)="cancelar()">Cancelar</button>
-                <button type="submit" class="button">Enviar</button>
-              </div>
-            </form>
-          </div>
-        </div>
-
-
-
-
-
-        <td *ngIf="!esAdministrador" class="px-6 py-4 whitespace-nowrap">
-          <button class="button py-2 px-4" (click)="mostrarDetalleDeSolicitud(cambio)">
+          <button class="button py-2 px-4 mt-2" (click)="mostrarDetalleDeSolicitud(cambio)">
             Ver detalle
           </button>
         </td>
 
       </tr>
-      <!-- Más filas aquí -->
-    </tbody>
+    </ng-container>
+
+
   </table>
-  <div>
-    <pagination-controls (pageChange)="onPageChange($event)" [(ngModel)]="currentPage" previousLabel="Anterior"
-      nextLabel="Siguiente" [maxSize]="maxSize" boundaryLinks="true">
-    </pagination-controls>
-  </div>
-
-
-  <div *ngIf="!esAdministrador"><button class="button mt-2" [routerLink]="['/new-solicitud', qrId]">
-      Nueva Solicitud
-    </button></div>
-
-
-</div>
-
-<div class="container mx-auto mt-16 mb-16 overflow-x-auto">
-  <mat-table #table [dataSource]="dataSource">
-
-    <!-- Position Column -->
-    <ng-container matColumnDef="ID SOLICITUD">
-      <mat-header-cell *matHeaderCellDef> ID SOLICITUD </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.idCambioHorario}} </mat-cell>
-    </ng-container>
-
-    <!-- RICHAR Column -->
-    <ng-container matColumnDef="NOMBRE SOLICITANTE">
-      <mat-header-cell *matHeaderCellDef> NOMBRE SOLICITANTE </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.nombreEmpleadoSolicitante}} </mat-cell>
-    </ng-container>
-
-    <!-- Name Column -->
-    <ng-container matColumnDef="NOMBRE EMPLEADO CAMBIO">
-      <mat-header-cell *matHeaderCellDef> NOMBRE EMPLEADO CAMBIO </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.nombreEmpleadoCambio}} </mat-cell>
-    </ng-container>
-
-    <!-- Weight Column -->
-    <ng-container matColumnDef="NOMBRE APROBADOR">
-      <mat-header-cell *matHeaderCellDef> NOMBRE APROBADOR </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.nombreEmpleadoAprobador}} </mat-cell>
-    </ng-container>
-
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="DESCRIPCIÓN">
-      <mat-header-cell *matHeaderCellDef> DESCRIPCIÓN </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.descripcion}} </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
-
-  <mat-paginator #paginator
-                 [pageSize]="10"
-                 [pageSizeOptions]="[5, 10, 20]"
-                 [showFirstLastButtons]="true">
+  <mat-paginator #paginator (page)="onPageChange($event)" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons>
   </mat-paginator>
+  <div *ngIf="!esAdministrador"><button class="button mt-2" [routerLink]="['/new-solicitud', qrId]">
+    Nueva Solicitud
+  </button></div>
 </div>
-
-{{   cambioHorarioConsulta | json }}
 
 <app-footer></app-footer>
