@@ -11,8 +11,8 @@
       </tr>
     </thead>
 
-    <ng-container *ngIf="esAdministrador">
-      <tr *ngFor="let cambio of cambioHorarioConsulta ">
+    <ng-container>
+      <tr *ngFor="let cambio of (esAdministrador ? cambioHorarioConsulta : cambioHorarioConsultaForEmployee) ">
         <td class="px-6 py-4 whitespace-nowrap">{{ cambio.idCambioHorario }}</td>
         <td class="px-6 py-4 whitespace-nowrap">{{ cambio.nombreEmpleadoSolicitante }}</td>
         <td class="px-6 py-4 whitespace-nowrap">{{ cambio.nombreEmpleadoCambio }}</td>
@@ -23,14 +23,15 @@
           <ng-container *ngIf="cambio.estado; else denegado">Aceptado</ng-container>
           <ng-template #denegado>Denegado</ng-template>
         </td>
-        <td *ngIf="esAdministrador"  class="px-6 py-4 whitespace-nowrap">
+        <td *ngIf="esAdministrador"  class="px-6 py-4 whitespace-nowrap block">
           <button class="button py-2 px-4">
             Responder
           </button>
-        </td>
-        <td *ngIf="esAdministrador"  class="px-6 py-4 whitespace-nowrap">
-          <button class="button py-2 px-4">
+          <button *ngIf="!esAdministrador" class="button py-2 px-4 mt-2">
             Editar
+          </button>
+          <button class="button py-2 px-4 mt-2" >
+            Ver detalle
           </button>
         </td>
 

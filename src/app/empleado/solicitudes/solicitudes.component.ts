@@ -84,7 +84,7 @@ export class SolicitudesComponent implements OnInit {
   }
 
   getSolicitudesForIdEmployee(id: Number): void {
-    this.cambioHorario.getChangeScheduleForIdEmployee(id).pipe(
+    this.cambioHorario.getChangeScheduleForIdEmployee(id, 1, 1).pipe(
       tap(info => {
         if (Array.isArray(info)) {
           this.cambioHorarioForEmployee = info;

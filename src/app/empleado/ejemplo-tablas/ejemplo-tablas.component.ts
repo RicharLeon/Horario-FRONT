@@ -50,7 +50,12 @@ export class EjemploTablasComponent {
     private router: Router) {}
 
   ngOnInit(): void {
-    this.getAllSolicitudes(this.pageSizeOptions[0]);
+    if (this.esAdministrador) {
+      this.getAllSolicitudes(this.pageSizeOptions[0]);
+    }else{
+       this.getSolicitudesForIdEmployee(Number(this.qrId), this.pageSizeOptions[0]);
+    }
+
   }
 
   getAllSolicitudes(size: number): void {
@@ -77,6 +82,31 @@ export class EjemploTablasComponent {
     ).subscribe();
   }
 
+  getSolicitudesForIdEmployee(id: Number, size: number): void {
+    this.cambioHorario.getChangeScheduleForIdEmployee(id, this.currentPage, size).pipe(
+      tap(info => {
+        if (Array.isArray(info.content)) {
+          this.cambioHorarioConsultaForEmployee = info.content;
+          if (info.totalElements) {
+            this.totalElement = info.totalElements;
+            if (this.paginator) {
+              this.paginator.length = this.totalElement; // Establecer el total de elementos en el paginador
+              this.dataSource.sort = this.matsort;
+            }
+          }
+          this.dataSource = new MatTableDataSource<CambioHorarioConsultaInterface>(this.cambioHorarioConsultaForEmployee);
+        } else {
+          this.cambioHorarioConsultaForEmployee = [];
+        }
+        console.log(this.cambioHorarioConsultaForEmployee, "solicitudes por empleado");
+      }),
+      catchError(err => {
+        console.error(err);
+        return throwError(err);
+      })
+    ).subscribe();
+
+  }
   
   onPageChange(event: any): void {
     const pageSize = event.pageSize;
@@ -88,7 +118,12 @@ export class EjemploTablasComponent {
     } else {
       this.currentPage = newPageIndex;
     }
-    this.getAllSolicitudes(pageSize);
+    if (this.esAdministrador) {
+      this.getAllSolicitudes(pageSize);
+    }else{
+      this.getSolicitudesForIdEmployee(Number(this.qrId), pageSize);
+    }
+    
   }
 
 
