@@ -1,44 +1,45 @@
-<div class="container mx-auto mt-16 mb-16 overflow-x-auto">
-    <mat-table #table [dataSource]="dataSource">
-  
-      <!-- Position Column -->
-      <ng-container matColumnDef="ID SOLICITUD">
-        <mat-header-cell *matHeaderCellDef> ID SOLICITUD </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.idCambioHorario}} </mat-cell>
-      </ng-container>
-  
-      <!-- RICHAR Column -->
-      <ng-container matColumnDef="NOMBRE SOLICITANTE">
-        <mat-header-cell *matHeaderCellDef> NOMBRE SOLICITANTE </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.nombreEmpleadoSolicitante}} </mat-cell>
-      </ng-container>
-  
-      <!-- Name Column -->
-      <ng-container matColumnDef="NOMBRE EMPLEADO CAMBIO">
-        <mat-header-cell *matHeaderCellDef> NOMBRE EMPLEADO CAMBIO </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.nombreEmpleadoCambio}} </mat-cell>
-      </ng-container>
-  
-      <!-- Weight Column -->
-      <ng-container matColumnDef="NOMBRE APROBADOR">
-        <mat-header-cell *matHeaderCellDef> NOMBRE APROBADOR </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.nombreEmpleadoAprobador}} </mat-cell>
-      </ng-container>
-  
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="DESCRIPCIÓN">
-        <mat-header-cell *matHeaderCellDef> DESCRIPCIÓN </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.descripcion}} </mat-cell>
-      </ng-container>
-  
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
-  
-    <mat-paginator #paginator
-                    (page)="onPageChange($event)"
-                    [pageSizeOptions]="pageSizeOptions"
-                   showFirstLastButtons>
-    </mat-paginator>
-  </div>
-  
+<div class="container mx-auto mt-16 mb-16 overflow-x-auto ">
+
+  <table matSort class="min-w-full divide-y divide-gray-200"> 
+    
+    <thead>
+      <tr>
+        <ng-container *ngFor="let column of displayedColumns">
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            {{ column }}</th>
+        </ng-container>
+      </tr>
+    </thead>
+
+    <ng-container *ngIf="esAdministrador">
+      <tr *ngFor="let cambio of cambioHorarioConsulta ">
+        <td class="px-6 py-4 whitespace-nowrap">{{ cambio.idCambioHorario }}</td>
+        <td class="px-6 py-4 whitespace-nowrap">{{ cambio.nombreEmpleadoSolicitante }}</td>
+        <td class="px-6 py-4 whitespace-nowrap">{{ cambio.nombreEmpleadoCambio }}</td>
+        <td class="px-6 py-4 whitespace-nowrap">{{ cambio.nombreEmpleadoAprobador }}</td>
+        <td class="">{{ cambio.descripcion }}</td>
+        <td class="px-6 py-4 whitespace-nowrap">{{ cambio.fechaSolicitud }}</td>
+        <td class="px-6 py-4 whitespace-nowrap">
+          <ng-container *ngIf="cambio.estado; else denegado">Aceptado</ng-container>
+          <ng-template #denegado>Denegado</ng-template>
+        </td>
+        <td *ngIf="esAdministrador"  class="px-6 py-4 whitespace-nowrap">
+          <button class="button py-2 px-4">
+            Responder
+          </button>
+        </td>
+        <td *ngIf="esAdministrador"  class="px-6 py-4 whitespace-nowrap">
+          <button class="button py-2 px-4">
+            Editar
+          </button>
+        </td>
+
+      </tr>
+    </ng-container>
+
+
+  </table>
+  <mat-paginator #paginator (page)="onPageChange($event)" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons>
+  </mat-paginator>
+
+</div>
