@@ -35,6 +35,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { EjemploTablasComponent } from './empleado/ejemplo-tablas/ejemplo-tablas.component';
+import { SolicitudEdicionComponent } from './empleado/solicitud-edicion/solicitud-edicion.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { EjemploTablasComponent } from './empleado/ejemplo-tablas/ejemplo-tablas
     LoginComponent,
     SpinnerComponent,
     ResponderCambioHorarioComponent,
-    EjemploTablasComponent
+    EjemploTablasComponent,
+    SolicitudEdicionComponent
   ],
   imports: [
     BrowserModule,

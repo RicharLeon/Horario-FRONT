@@ -165,9 +165,12 @@ export class SolicitudesComponent implements OnInit {
     this.respuesta = true;
   }
   responder2(cambio: CambioHorarioConsultaInterface): void {
-    this.router.navigate(['/resonder-solicitud'], { queryParams: { idCambioHorario: cambio.idCambioHorario } });
+    this.router.navigate(['/resonder-solicitud/',this.qrId], { queryParams: { idCambioHorario: cambio.idCambioHorario } });
   }
 
+  solicitarEitar(cambio: CambioHorarioConsultaInterface): void {
+    this.router.navigate(['/solicitud-edicion/',this.qrId], { queryParams: { idCambioHorario: cambio.idCambioHorario } });
+  }
   cancelar() {
     this.respuesta = false; // Limpiar la respuesta
   }

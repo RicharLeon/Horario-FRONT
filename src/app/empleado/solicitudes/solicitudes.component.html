@@ -29,7 +29,7 @@
           <ng-template #denegado>Denegado</ng-template>
         </td>
         <td class="px-6 py-4 whitespace-nowrap block">
-          <button *ngIf="esAdministrador" class="button py-2 px-4">
+          <button *ngIf="esAdministrador" class="button py-2 px-4" (click)="responder2(cambio)">
             Responder
           </button>
           <button *ngIf="!esAdministrador" class="button py-2 px-4 mt-2" (click)="responder2(cambio)">
@@ -37,6 +37,9 @@
           </button>
           <button class="button py-2 px-4 mt-2" (click)="mostrarDetalleDeSolicitud(cambio)">
             Ver detalle
+          </button>
+          <button class="button py-2 px-4 mt-2" (click)="solicitarEitar(cambio)">
+            Solicitud-Edicion
           </button>
         </td>
 

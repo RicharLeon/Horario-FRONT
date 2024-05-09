@@ -3,43 +3,55 @@
 </app-header>
 
 <div class="container mx-auto mt-16 mb-16 overflow-x-auto flex  justify-center items-center ">
-    <div class="w-3/4">
-      <h2 class="text-lg font-semibold mb-4">Editar Cambio de Horario</h2>
-      <form class="grid grid-cols-2 gap-4" #form="ngForm">
-        <div class="mb-4">
-          <label for="nombreEmpleadoSolicitante" class="block text-sm font-medium text-gray-700">Nombre del Empleado Solicitante</label>
-          <input type="text" id="nombreEmpleadoSolicitante" name="nombreEmpleadoSolicitante" [(ngModel)]="cambioHorario.nombreEmpleadoSolicitante" class="input-basic-disable mt-2" />
-        </div>
-        <input type="hidden" name="idEmpleadoAprobador" [(ngModel)]="cambioHorario.idEmpleadoAprobador"
-              [ngModelOptions]="{ standalone: true }" [value]="cambioHorario?.idEmpleadoAprobador">
-        <div class="mb-4">
-          <label for="nombreEmpleadoAprobador" class="block text-sm font-medium text-gray-700" >Nombre del Empleado Aprobador</label>
-          <input  type="text" id="nombreEmpleadoAprobador" name="nombreEmpleadoAprobador" [(ngModel)]="cambioHorario.nombreEmpleadoAprobador" class="input-basic-disable mt-2" />
-        </div>
-        <div class="mb-4">
-          <label for="nombreEmpleadoCambio" class="block text-sm font-medium text-gray-700">Nombre del Empleado Cambio</label>
-          <input type="text" id="nombreEmpleadoCambio" name="nombreEmpleadoCambio" [(ngModel)]="cambioHorario.nombreEmpleadoCambio" class="input-basic-disable mt-2" />
-        </div>
-        <div class="mb-4">
-            <label for="estado" class="block text-sm font-medium text-gray-700">Estado</label>
-            <select class="input-basic shadow-sm mt-2" name="estado" [(ngModel)]="cambioHorario.estado">
-                <option value="" disabled selected>Selecciona una respuesta</option>
-                <option [value]="true">Aceptar</option>
-                <option [value]="false">Denegar</option>
-              </select>
-        </div>
-        <div class="mb-4">
-          <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
-          <textarea id="descripcion" name="descripcion" [(ngModel)]="cambioHorario.descripcion" class="input-basic shadow-sm rounded-3xl mt-2" rows="4"
-          placeholder="Escribe tu respuesta aquí..."></textarea>
-        </div>
-
-        <div class="mt-6">
-        <button type="submit" class="button" (click)="putSolicitud()" >Guardar Cambios</button>
+  <div class="w-3/4">
+    <h2 class="text-lg font-semibold mb-4">Responder Cambio de Horario</h2>
+    <form class="grid grid-cols-2 gap-4" #form="ngForm">
+      <div class="mb-4">
+        <label for="nombreEmpleadoSolicitante" class="block text-sm font-medium text-gray-700">Nombre del Empleado
+          Solicitante</label>
+        <input type="text" id="nombreEmpleadoSolicitante" name="nombreEmpleadoSolicitante"
+          [(ngModel)]="cambioHorario.nombreEmpleadoSolicitante" class="input-basic-disable mt-2" />
       </div>
-      </form>
-      
+      <input type="hidden" name="idEmpleadoAprobador" [(ngModel)]="cambioHorario.idEmpleadoAprobador"
+        [value]="cambioHorario.idEmpleadoAprobador">
+      <div class="mb-4">
+        <label for="nombreEmpleadoAprobador" class="block text-sm font-medium text-gray-700">Nombre del Empleado
+          Aprobador</label>
+        <input type="text" id="nombreEmpleadoAprobador" name="nombreEmpleadoAprobador"
+          [(ngModel)]="cambioHorario.nombreEmpleadoAprobador" class="input-basic-disable mt-2" />
+      </div>
+      <div class="mb-4">
+        <label for="nombreEmpleadoCambio" class="block text-sm font-medium text-gray-700">Nombre del Empleado
+          Cambio</label>
+        <input type="text" id="nombreEmpleadoCambio" name="nombreEmpleadoCambio"
+          [(ngModel)]="cambioHorario.nombreEmpleadoCambio" class="input-basic-disable mt-2" />
+      </div>
+      <div class="mb-4">
+        <label for="estado" class="block text-sm font-medium text-gray-700">Estado</label>
+        <select class="input-basic shadow-sm mt-2" name="estado" [(ngModel)]="cambioHorario.estado">
+          <option value="" disabled selected>Selecciona una respuesta</option>
+          <option [value]="true">Aceptar</option>
+          <option [value]="false">Denegar</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
+        <textarea id="descripcion" name="descripcion" [(ngModel)]="cambioHorario.descripcion"
+          class="input-basic shadow-sm rounded-3xl mt-2" rows="4" placeholder="Escribe tu respuesta aquí..."></textarea>
+      </div>
+
+
+    </form>
+    <div  class="flex ">
+      <button type="submit" class="button" (click)="putSolicitud()">
+        Guardar Cambios
+      </button>
+      <button class="button ml-2" [routerLink]="['/solicitudes', qrId]">
+        Regresar
+      </button>
     </div>
+
   </div>
-  
-  <app-footer></app-footer>
+</div>
+
+<app-footer></app-footer>

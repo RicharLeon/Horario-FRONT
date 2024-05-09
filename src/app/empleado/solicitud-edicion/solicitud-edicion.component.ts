@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
+import { CambioHorarioInterface } from 'src/app/models/cambioHorario.interface';
 import { CambioHorarioConsultaInterface } from 'src/app/models/cambioHorarioConsulta.interface';
 import { EmpleadoInterface } from 'src/app/models/empelado.interface';
 import { QrModel } from 'src/app/models/qr.interface';
@@ -11,22 +12,26 @@ import { QrServiceService } from 'src/app/services/qr-service.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-responder-cambio-horario',
-  templateUrl: './responder-cambio-horario.component.html',
-  styleUrls: ['./responder-cambio-horario.component.css']
+  selector: 'app-solicitud-edicion',
+  templateUrl: './solicitud-edicion.component.html',
+  styleUrls: ['./solicitud-edicion.component.css']
 })
-export class ResponderCambioHorarioComponent {
+export class SolicitudEdicionComponent {
   @ViewChild('form', { static: false }) form!: NgForm;
   cambioHorario: CambioHorarioConsultaInterface;
   idCambioHorario: number = 0;
- 
+  
+  solicitudCambioHorario: CambioHorarioInterface = {};
   esAdmin = false;
   qrId = this.route.snapshot.paramMap.get('id');
   qrModel: QrModel | undefined;
+  infoAllEmpleado: EmpleadoInterface[] = [];
 
-  constructor(private route: ActivatedRoute, 
+
+  constructor(private route: ActivatedRoute,
     private cambioHorarioService: CambioHorarioService,
     private qrServices: QrServiceService,
+    private empleadoInfo: EmpleadoService,
     private router: Router) {
     this.cambioHorario = {
       // ID DEL APROBADOR DEBE SER DE LA SESIÖN HACE FALTA
@@ -37,6 +42,10 @@ export class ResponderCambioHorarioComponent {
       descripcion: '',
       estado: false
     };
+    this.solicitudCambioHorario = {
+      idEmpleadoSolicitante: Number(this.qrId),
+      estado: null
+    }
   }
 
   ngOnInit(): void {
@@ -56,7 +65,7 @@ export class ResponderCambioHorarioComponent {
     });
 
     this.getQrEmpleadoId(Number(this.qrId));
-    
+    this.getAllEmpleados();
   }
 
   getQrEmpleadoId(id: number): void {
@@ -88,15 +97,59 @@ export class ResponderCambioHorarioComponent {
             showConfirmButton: false,
             timer: 1500
           });
-          this.router.navigate(['/solicitudes/',this.qrId]);
+          this.router.navigate(['/solicitudes/', this.qrId]);
         },
         error => {
           console.error('Error en la solicitud:', error);
         }
       )
-     
+
 
     })
+  }
+
+  getAllEmpleados(): void {
+    this.empleadoInfo.getAllEmpleados().pipe(
+      tap(info => {
+        console.log(info, "datos empleado");
+        if (Array.isArray(info)) {
+          this.infoAllEmpleado = info;
+        } else {
+          this.infoAllEmpleado = [];
+        }
+        console.log(this.infoAllEmpleado, "todos los empleados");
+      }),
+      catchError(err => {
+        console.error(err);
+        return throwError(err);
+      })
+    ).subscribe();
+  }
+
+  submitForm() {
+
+    Swal.fire({
+      title: "Estas seguro de enviar la Solicitud ?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Si",
+      denyButtonText: `No estoy seguro`
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Enviar!", "", "success");
+        this.cambioHorarioService.postNewRequestSchedule(this.solicitudCambioHorario).subscribe(
+          response => {
+            console.log('Respuesta del servidor:', response);
+            this.form.resetForm();
+          },
+          error => {
+            console.error('Error en la solicitud:', error);
+          }
+        )
+      } else if (result.isDenied) {
+        Swal.fire("Cambios no guardados", "", "info");
+      }
+    });
   }
 
 }

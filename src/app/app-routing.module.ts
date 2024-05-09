@@ -12,6 +12,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { SpinnerComponent } from './global/global/spinner/spinner.component';
 import { ResponderCambioHorarioComponent } from './supervisor/responder-cambio-horario/responder-cambio-horario.component';
 import { EjemploTablasComponent } from './empleado/ejemplo-tablas/ejemplo-tablas.component';
+import { SolicitudEdicionComponent } from './empleado/solicitud-edicion/solicitud-edicion.component';
 
 const routes: Routes = [
   {path: 'menu/:id', component: MenuComponent},
@@ -24,8 +25,9 @@ const routes: Routes = [
   {path: 'calendario', component: CalendarioComponent},
   {path: 'login', component: LoginComponent},
   {path: 'spinner', component: SpinnerComponent},
-  {path: 'resonder-solicitud', component: ResponderCambioHorarioComponent},
-  {path: 'ejemplo/:id', component: EjemploTablasComponent}
+  {path: 'resonder-solicitud/:id', component: ResponderCambioHorarioComponent},
+  {path: 'ejemplo/:id', component: EjemploTablasComponent},
+  {path: 'solicitud-edicion/:id', component: SolicitudEdicionComponent}
 ];
 
 @NgModule({

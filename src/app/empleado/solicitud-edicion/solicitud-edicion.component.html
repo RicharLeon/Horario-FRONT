@@ -1,0 +1,68 @@
+<!-- cambio-horario-edicion.component.html -->
+<app-header>
+</app-header>
+
+<div class="container mx-auto mt-16 mb-16 overflow-x-auto flex  justify-center items-center ">
+  <div class="w-3/4">
+    <h2 class="text-lg font-semibold mb-4">Nueva Solicitud para Cambio de Horario</h2>
+    <form (ngSubmit)="submitForm()" class="grid grid-cols-2 gap-4" #form="ngForm">
+
+      <div class="mb-4">
+        <label for="nombreEmpleadoSolicitante" class="block text-sm font-medium text-gray-700">Nombre del Empleado
+          Solicitante</label>
+        <input type="text" id="nombreEmpleadoSolicitante" name="nombreEmpleadoSolicitante"
+          [(ngModel)]="cambioHorario.nombreEmpleadoSolicitante" class="input-basic-disable mt-2" />
+      </div>
+
+      <div class="mb-4">
+        <label for="nombreEmpleadoCambio" class="block text-sm font-medium text-gray-700">Nombre del Empleado
+          Cambio</label>
+        <select class="input-basic shadow-sm mt-2" id="empleadoSelect"
+          [(ngModel)]="solicitudCambioHorario.idEmpleadoCambio" name="empleadoSelect">
+          <option value="" disabled selected>Selecciona una respuesta</option>
+          <option *ngFor="let empleado of infoAllEmpleado" [ngValue]="empleado.idEmpleado"
+            placeholder="Escribe tu respuesta aquí...">{{ empleado.nombre }}
+            {{ empleado.apellido }}</option>
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <label for="nombreEmpleadoCambio" class="block text-sm font-medium text-gray-700">Dia del Cambio de
+          Horario</label>
+        <select class="input-basic shadow-sm mt-2" [(ngModel)]="solicitudCambioHorario.diaCambio" name="diaCambio">
+          <option selected>Seleccione un dia</option>
+          <option value="1">Lunes</option>
+          <option value="2">Martes</option>
+          <option value="3">Miercoles</option>
+          <option value="4">Jueves</option>
+          <option value="5">Viernes</option>
+        </select>
+
+      </div>
+
+
+      <div class="mb-4">
+        <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
+        <textarea id="descripcion" name="descripcion" [(ngModel)]="solicitudCambioHorario.descripcion"
+          class="input-basic shadow-sm rounded-3xl mt-2" rows="4" placeholder="Escribe tu respuesta aquí..."></textarea>
+      </div>
+
+
+      <div class="flex flex-col md:flex-row items-center justify-center md:justify-end space-y-2 md:space-y-0">
+        <button type="submit" class="button m-2 md:mr-0 md:w-auto">
+          Guardar Cambios
+        </button>
+        <button class="button md:ml-2 md:w-auto" [routerLink]="['/solicitudes', qrId]">
+        Regresar
+      </button>
+      </div>
+      
+    </form>
+
+
+
+
+  </div>
+</div>
+
+<app-footer></app-footer>
