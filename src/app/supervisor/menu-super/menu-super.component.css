@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@500;700&display=swap');
+
+:root {
+    --Almost-White: hsl(0, 0%, 98%);
+    --Media-Gray: hsl(0, 0%, 41%);
+    --Almost-Black: hsl(0, 0%, 1%); /* Corregido: ajusta el valor de lightness */
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+
+
+body {
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 500; /* Medium 500 */
+    background-color: var(--Almost-White);
+    color: var(--Almost-Black);
+    font-size: 18px;
+}
+
+
+
+.mario {
+    border: 1px solid red;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 16px 16px 24px;
+    width: 50px;
+    height: 50px;
+    & nav{
+        display: none;
+    }
+}
+
+
+
+
+
+
+.atribution {
+    font-size: 1px; text-align: center;
+}
+.atribution a {
+    color: hs1(228, 45%, 44%);
+}
