@@ -42,7 +42,7 @@
   </table>
   <mat-paginator #paginator (page)="onPageChange($event)" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons>
   </mat-paginator>
-  <div *ngIf="!esAdministrador"><button class="button mt-2" [routerLink]="['/new-solicitud', qrId]">
+  <div *ngIf="!esAdministrador"><button class="button mt-2" [routerLink]="['/new-solicitud']">
     Nueva Solicitud
   </button></div>
 </div>

@@ -13,21 +13,38 @@ import { SpinnerComponent } from './global/global/spinner/spinner.component';
 import { ResponderCambioHorarioComponent } from './supervisor/responder-cambio-horario/responder-cambio-horario.component';
 import { EjemploTablasComponent } from './empleado/ejemplo-tablas/ejemplo-tablas.component';
 import { SolicitudEdicionComponent } from './empleado/solicitud-edicion/solicitud-edicion.component';
+import { AuthGuardService } from './services/auth-guard.service';
+import { AdminGuardService } from './services/admin-guard.service';
+import { SupervisorGuardService } from './services/supervisor-guard.service';
+import { EmpleadoGuardService } from './services/empleado-guard.service';
 
 const routes: Routes = [
-  {path: 'menu/:id', component: MenuComponent},
-  {path: 'menu-super', component: MenuSuperComponent},
-  {path: 'inicio/:id', component: MenuGlobalComponent},
-  {path: 'new-solicitud/:id', component: NewSolicitudComponent},
-  {path: 'solicitudes/:id', component: SolicitudesComponent},
-  {path: 'reportes', component: ReportesComponent},
-  {path: 'cambio-horario', component: CambioHorarioComponent},
-  {path: 'calendario', component: CalendarioComponent},
+  // Ruta principal para Admin/Supervisor (MenuGlobalComponent)
+  {path: 'inicio/:id', component: MenuGlobalComponent, canActivate: [EmpleadoGuardService]},
+  
+  // Rutas de empleados (protegidas con EmpleadoGuardService)
+  {path: 'menu/:id', component: MenuComponent, canActivate: [EmpleadoGuardService]},
+  {path: 'new-solicitud/:id', component: NewSolicitudComponent, canActivate: [EmpleadoGuardService]},
+  {path: 'solicitudes/:id', component: SolicitudesComponent, canActivate: [EmpleadoGuardService]},
+  {path: 'calendario/:id', component: CalendarioComponent, canActivate: [EmpleadoGuardService]},
+  {path: 'ejemplo/:id', component: EjemploTablasComponent, canActivate: [EmpleadoGuardService]},
+  {path: 'solicitud-edicion/:id', component: SolicitudEdicionComponent, canActivate: [EmpleadoGuardService]},
+  
+  // Rutas de supervisor/admin (protegidas con SupervisorGuardService que permite SUPERVISOR y ADMIN)
+  {path: 'menu-super', component: MenuSuperComponent, canActivate: [SupervisorGuardService]},
+  {path: 'reportes', component: ReportesComponent, canActivate: [SupervisorGuardService]},
+  {path: 'cambio-horario', component: CambioHorarioComponent, canActivate: [SupervisorGuardService]},
+  {path: 'resonder-solicitud/:id', component: ResponderCambioHorarioComponent, canActivate: [SupervisorGuardService]},
+  
+  // Rutas generales (protegidas con AuthGuardService básico)
+  {path: 'spinner', component: SpinnerComponent, canActivate: [AuthGuardService]},
+  
+  // Ruta pública
   {path: 'login', component: LoginComponent},
-  {path: 'spinner', component: SpinnerComponent},
-  {path: 'resonder-solicitud/:id', component: ResponderCambioHorarioComponent},
-  {path: 'ejemplo/:id', component: EjemploTablasComponent},
-  {path: 'solicitud-edicion/:id', component: SolicitudEdicionComponent}
+  
+  // Redirección por defecto
+  {path: '', redirectTo: '/login', pathMatch: 'full'},
+  {path: '**', redirectTo: '/login'}
 ];
 
 @NgModule({

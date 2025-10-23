@@ -8,6 +8,7 @@ import { QrModel } from 'src/app/models/qr.interface';
 import { CambioHorarioService } from 'src/app/services/cambio-horario.service';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 import { QrServiceService } from 'src/app/services/qr-service.service';
+import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -21,13 +22,18 @@ export class ResponderCambioHorarioComponent {
   idCambioHorario: number = 0;
  
   esAdmin = false;
-  qrId = this.route.snapshot.paramMap.get('id');
+  qrId: number | null = null; // ID del usuario en sesión
   qrModel: QrModel | undefined;
 
   constructor(private route: ActivatedRoute, 
     private cambioHorarioService: CambioHorarioService,
     private qrServices: QrServiceService,
-    private router: Router) {
+    private router: Router,
+    private authService: AuthService) {
+    
+    // Obtener el ID del usuario autenticado
+    this.qrId = this.authService.getUserId();
+    
     this.cambioHorario = {
       // ID DEL APROBADOR DEBE SER DE LA SESIÖN HACE FALTA
       idEmpleadoAprobador: 0,
@@ -55,7 +61,9 @@ export class ResponderCambioHorarioComponent {
       }
     });
 
-    this.getQrEmpleadoId(Number(this.qrId));
+    if (this.qrId) {
+      this.getQrEmpleadoId(this.qrId);
+    }
     
   }
 
@@ -88,7 +96,7 @@ export class ResponderCambioHorarioComponent {
             showConfirmButton: false,
             timer: 1500
           });
-          this.router.navigate(['/solicitudes/',this.qrId]);
+          this.router.navigate(['/solicitudes']);
         },
         error => {
           console.error('Error en la solicitud:', error);

@@ -6,6 +6,8 @@ import { QrModel } from 'src/app/models/qr.interface';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 import { QrServiceService } from 'src/app/services/qr-service.service';
 
+import { AuthService } from 'src/app/services/auth.service';
+
 @Component({
   selector: 'app-menu-global',
   templateUrl: './menu-global.component.html',
@@ -22,28 +24,51 @@ export class MenuGlobalComponent implements OnInit {
   idEmpelado: number | undefined;
 
 
-  constructor(private qrServices: QrServiceService,
+  constructor(
+    private qrServices: QrServiceService,
     private empleadoInfo: EmpleadoService,
-    private route: ActivatedRoute) {
-      const idString = this.route.snapshot.paramMap.get('id');
-  this.idEmpelado = idString ? Number(idString) : undefined;
-     }
-
-  ngOnInit(): void {
-
-    if (this.idEmpelado) {
-      this.getQrEmpleadoId(Number(this.idEmpelado));
-      this.getIdEmpleadoInfo(Number(this.idEmpelado));
-      this.valdiationTypeOfEmployee();
-    }
-
+    private route: ActivatedRoute,
+    private authService: AuthService
+  ) {
+    const idString = this.route.snapshot.paramMap.get('id');
+    this.idEmpelado = idString ? Number(idString) : undefined;
   }
 
+  ngOnInit(): void {
+    console.log('MenuGlobalComponent iniciado ✅');
+    console.log('ID Empleado recibido:', this.idEmpelado);
+    console.log(this.infoEmpleado, "RRRRRRRR");
+    
+    // Validar rol primero
+    this.validateUserRole();
+    
+    if (this.idEmpelado) {
+      this.getQrEmpleadoId(Number(this.idEmpelado));
+      this.getIdEmpleadoInfo(Number(this.idEmpelado)).subscribe();
+    } else {
+      console.error('⚠️ No se recibió ID de empleado');
+      
+    }
+  }
 
-  showGetStartedButton(event: Event) {
-    event.preventDefault(); // Evita el comportamiento predeterminado del enlace
-    this.showButton = true;
+  validateUserRole() {
+    // Obtener el rol directamente del token JWT usando AuthService
+    const isAdmin = this.authService.isAdmin();
+    const isSupervisor = this.authService.isSupervisor();
+    const roles = this.authService.getUserRoles();
 
+    console.log('Roles del usuario desde el token:', roles);
+    console.log('¿Es Admin?:', isAdmin);
+    console.log('¿Es Supervisor?:', isSupervisor);
+
+    // Si es admin o supervisor, mostrar como administrador
+    if (isAdmin || isSupervisor) {
+      this.isAdministrator = true;
+    } else {
+      this.isAdministrator = false;
+    }
+
+    console.log('isAdministrator:', this.isAdministrator);
   }
 
   hideGetStartedButton() {
@@ -67,26 +92,27 @@ export class MenuGlobalComponent implements OnInit {
   getIdEmpleadoInfo(id: number): Observable<any> {
     return this.empleadoInfo.getEmpleadoPorId(id).pipe(
       tap(info => {
-        console.log(info, "datos empleado");
+        console.log(info, "✅ Datos empleado cargados");
         this.infoEmpleado = info;
       }),
       catchError(err => {
-        console.error(err);
+        console.error('❌ Error al cargar datos del empleado:', err);
+        // Crear un objeto empleado temporal para que la vista no falle
+        this.infoEmpleado = {
+          idEmpleado: id,
+          nombre: 'Usuario',
+          apellido: '',
+          tipoDocumento: '',
+          documento: '',
+          nombreCargo: 'Administrador',
+          nombreContrato: '',
+          nombreArea: '',
+          nombreProyectos: '',
+          descripcionProyecto: ''
+        } as EmpleadoInterface;
         return throwError(err);
       })
     );
-  }
-
-  valdiationTypeOfEmployee() {
-
-    this.getIdEmpleadoInfo(Number(this.idEmpelado)).subscribe((data: any[]) => {
-      const tipoDeUsuario = 'Gerente'; // Tipo de USUARIO
-      const documentosEncontrados = data.filter(empleado => empleado.nombreCargo === tipoDeUsuario);
-      
-      if (documentosEncontrados.length > 0) {
-        this.isAdministrator = true;
-      } 
-    })
   }
 
 }

@@ -8,6 +8,7 @@ import { QrModel } from 'src/app/models/qr.interface';
 import { CambioHorarioService } from 'src/app/services/cambio-horario.service';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 import { QrServiceService } from 'src/app/services/qr-service.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import Swal from 'sweetalert2';
 import { ProyectosForEmployee } from 'src/app/models/proyectosEmpleado.interface';
@@ -31,27 +32,30 @@ export class NewSolicitudComponent {
   mienbrosEquipo: MienbrosEquiposInterface[] = [];
   selectedEmpleado: EmpleadoInterface | null = null;
   solicitudCambioHorario: CambioHorarioInterface = {};
-  qrId = this.route.snapshot.paramMap.get('id');
+  qrId: number | null = null; // ID del usuario en sesión
+  
   constructor(private qrServices: QrServiceService,
     private empleadoInfo: EmpleadoService,
     private cambioHorario: CambioHorarioService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private authService: AuthService) {
 
+    // Obtener el ID del usuario autenticado
+    this.qrId = this.authService.getUserId();
+    
     this.solicitudCambioHorario = {
-      idEmpleadoSolicitante: Number(this.qrId),
+      idEmpleadoSolicitante: this.qrId || 0,
       estado: null
     }
   }
 
   ngOnInit(): void {
-
-
     if (this.qrId) {
-      this.getQrEmpleadoId(Number(this.qrId));
-      this.getIdEmpleadoInfo(Number(this.qrId));
+      this.getQrEmpleadoId(this.qrId);
+      this.getIdEmpleadoInfo(this.qrId);
       this.getAllEmpleados();
-      this.getProyectsForEmployee(Number(this.qrId));
-      this.getEquiposById(Number(this.qrId));
+      this.getProyectsForEmployee(this.qrId);
+      this.getEquiposById(this.qrId);
     }
   }
 

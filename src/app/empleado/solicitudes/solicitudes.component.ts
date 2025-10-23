@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
 import { EmpleadoInterface } from 'src/app/models/empelado.interface';
 import { CambioHorarioService } from 'src/app/services/cambio-horario.service';
+import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
 import { CambioHorarioConsultaInterface } from 'src/app/models/cambioHorarioConsulta.interface';
 import { MatPaginator } from '@angular/material/paginator';
@@ -43,7 +44,7 @@ export class SolicitudesComponent implements OnInit {
   respuesta: boolean = false;
   cambioHorarioConsultaForEmployee: CambioHorarioConsultaInterface[] = [];
   cambioHorarioConsulta: CambioHorarioConsultaInterface[] = [];
-  qrId = this.route.snapshot.paramMap.get('id');
+  qrId: number | null = null; // ID del usuario autenticado
 
 
   // Propiedades de la paginación
@@ -55,13 +56,22 @@ export class SolicitudesComponent implements OnInit {
   constructor(
     private cambioHorario: CambioHorarioService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
+    // Obtener el ID del usuario autenticado desde el token
+    this.qrId = this.authService.getUserId();
+    
     if (this.esAdministrador) {
       this.getAllSolicitudes(this.pageSizeOptions[0]);
-    }else{
-       this.getSolicitudesForIdEmployee(Number(this.qrId), this.pageSizeOptions[0]);
+    } else {
+      if (this.qrId) {
+        this.getSolicitudesForIdEmployee(this.qrId, this.pageSizeOptions[0]);
+      } else {
+        console.error('No se pudo obtener el ID del usuario de sesión');
+        this.router.navigate(['/login']);
+      }
     }
   }
 
@@ -127,8 +137,10 @@ export class SolicitudesComponent implements OnInit {
     }
     if (this.esAdministrador) {
       this.getAllSolicitudes(pageSize);
-    }else{
-      this.getSolicitudesForIdEmployee(Number(this.qrId), pageSize);
+    } else {
+      if (this.qrId) {
+        this.getSolicitudesForIdEmployee(this.qrId, pageSize);
+      }
     }
     
   }
@@ -165,11 +177,11 @@ export class SolicitudesComponent implements OnInit {
     this.respuesta = true;
   }
   responder2(cambio: CambioHorarioConsultaInterface): void {
-    this.router.navigate(['/resonder-solicitud/',this.qrId], { queryParams: { idCambioHorario: cambio.idCambioHorario } });
+    this.router.navigate(['/resonder-solicitud', this.qrId], { queryParams: { idCambioHorario: cambio.idCambioHorario } });
   }
 
   solicitarEitar(cambio: CambioHorarioConsultaInterface): void {
-    this.router.navigate(['/solicitud-edicion/',this.qrId], { queryParams: { idCambioHorario: cambio.idCambioHorario } });
+    this.router.navigate(['/solicitud-edicion', this.qrId], { queryParams: { idCambioHorario: cambio.idCambioHorario } });
   }
   cancelar() {
     this.respuesta = false; // Limpiar la respuesta

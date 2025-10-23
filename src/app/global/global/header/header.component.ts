@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
 import { MenuInterface } from 'src/app/models/menu.interface';
+import { DynamicRoutesService } from 'src/app/services/dynamic-routes.service';
 import { MenuService } from 'src/app/services/menu.service';
 
 @Component({
@@ -13,7 +14,9 @@ export class HeaderComponent implements OnInit{
 
   @Input() idEmpelado: number | undefined ;
 
-  constructor(private menuServices: MenuService, private router: Router){}
+  constructor(private menuServices: MenuService, private router: Router,
+    private dynamicRoutesService: DynamicRoutesService
+  ){}
 
   ngOnInit(): void {
     
@@ -46,6 +49,8 @@ export class HeaderComponent implements OnInit{
         if (Array.isArray(info)) {
           this.menuGrupo = info;
           this.validationOfMenu();
+
+          this.dynamicRoutesService.addDynamicRoutes(this.menuGrupo, this.idEmpelado);
         } else {
           this.menuGrupo = [];
         }
