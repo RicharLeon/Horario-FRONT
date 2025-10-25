@@ -34,7 +34,7 @@ const routes: Routes = [
   {path: 'menu-super', component: MenuSuperComponent, canActivate: [SupervisorGuardService]},
   {path: 'reportes', component: ReportesComponent, canActivate: [SupervisorGuardService]},
   {path: 'cambio-horario', component: CambioHorarioComponent, canActivate: [SupervisorGuardService]},
-  {path: 'resonder-solicitud/:id', component: ResponderCambioHorarioComponent, canActivate: [SupervisorGuardService]},
+  {path: 'resonder-solicitud/:id', component: ResponderCambioHorarioComponent, canActivate: [EmpleadoGuardService]},
   
   // Rutas generales (protegidas con AuthGuardService básico)
   {path: 'spinner', component: SpinnerComponent, canActivate: [AuthGuardService]},

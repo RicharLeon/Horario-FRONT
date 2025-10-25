@@ -145,10 +145,11 @@ export class SolicitudEdicionComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire("Enviar!", "", "success");
-        this.cambioHorarioService.postNewRequestSchedule(this.solicitudCambioHorario).subscribe(
+        this.cambioHorarioService.putResponseSolicitud(this.solicitudCambioHorario, this.idCambioHorario).subscribe(
           response => {
             console.log('Respuesta del servidor:', response);
             this.form.resetForm();
+            this.router.navigate(['/solicitudes', this.qrId]);
           },
           error => {
             console.error('Error en la solicitud:', error);

@@ -62,6 +62,7 @@ export class SolicitudesComponent implements OnInit {
   ngOnInit(): void {
     // Obtener el ID del usuario autenticado desde el token
     this.qrId = this.authService.getUserId();
+    this.validateUserRole();
     
     if (this.esAdministrador) {
       this.getAllSolicitudes(this.pageSizeOptions[0]);
@@ -74,6 +75,27 @@ export class SolicitudesComponent implements OnInit {
       }
     }
   }
+
+    validateUserRole() {
+    // Obtener el rol directamente del token JWT usando AuthService
+    const isAdmin = this.authService.isAdmin();
+    const isSupervisor = this.authService.isSupervisor();
+    const roles = this.authService.getUserRoles();
+
+    console.log('Roles del usuario desde el token:', roles);
+    console.log('¿Es Admin?:', isAdmin);
+    console.log('¿Es Supervisor?:', isSupervisor);
+
+    // Si es admin o supervisor, mostrar como administrador
+    if (isAdmin || isSupervisor) {
+      this.esAdministrador = true;
+    } else {
+      this.esAdministrador = false;
+    }
+
+    console.log('isAdministrator:', this.esAdministrador);
+  }
+
 
   getAllSolicitudes(size: number): void {
     this.cambioHorario.getAllDataRequestSchedule(this.currentPage, size).pipe(

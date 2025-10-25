@@ -20,6 +20,7 @@ export class ResponderCambioHorarioComponent {
   @ViewChild('form', { static: false }) form!: NgForm;
   cambioHorario: CambioHorarioConsultaInterface;
   idCambioHorario: number = 0;
+  idempleadoAprobador: number = 0;
  
   esAdmin = false;
   qrId: number | null = null; // ID del usuario en sesión
@@ -36,7 +37,7 @@ export class ResponderCambioHorarioComponent {
     
     this.cambioHorario = {
       // ID DEL APROBADOR DEBE SER DE LA SESIÖN HACE FALTA
-      idEmpleadoAprobador: 0,
+      idEmpleadoAprobador: this.idempleadoAprobador,
       nombreEmpleadoSolicitante: '',
       nombreEmpleadoAprobador: '',
       nombreEmpleadoCambio: '',
@@ -60,12 +61,45 @@ export class ResponderCambioHorarioComponent {
         );
       }
     });
+    this.validateUserRole();
+    
+    console.log(this.esAdmin);
+    this.getIdEmployeeAprobador(this.qrId || 0);
 
     if (this.qrId) {
       this.getQrEmpleadoId(this.qrId);
     }
     
   }
+
+  getIdEmployeeAprobador(id: number): void {
+    if(this.esAdmin) {
+      this.idempleadoAprobador = id;
+    }
+  }
+
+    validateUserRole() {
+    // Obtener el rol directamente del token JWT usando AuthService
+    const isAdmin = this.authService.isAdmin();
+    const isSupervisor = this.authService.isSupervisor();
+    const roles = this.authService.getUserRoles();
+
+    console.log('Roles del usuario desde el token:', roles);
+    console.log('¿Es Admin?:', isAdmin);
+    console.log('¿Es Supervisor?:', isSupervisor);
+
+    // Si es admin o supervisor, mostrar como administrador
+    if (isAdmin || isSupervisor) {
+      this.esAdmin = true;
+    } else {
+      this.esAdmin = false;
+    }
+
+    console.log('isAdministrator:', this.esAdmin);
+  }
+
+
+
 
   getQrEmpleadoId(id: number): void {
     this.qrServices.getQrEmpleado(id)
