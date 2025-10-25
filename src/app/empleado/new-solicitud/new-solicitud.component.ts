@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
 import { CambioHorarioInterface } from 'src/app/models/cambioHorario.interface';
 import { EmpleadoInterface } from 'src/app/models/empelado.interface';
@@ -33,11 +33,14 @@ export class NewSolicitudComponent {
   selectedEmpleado: EmpleadoInterface | null = null;
   solicitudCambioHorario: CambioHorarioInterface = {};
   qrId: number | null = null; // ID del usuario en sesión
+  isEditMode: boolean = false; // Indicador de modo edición
+  idCambioHorario: number | null = null; // ID de la solicitud a editar
   
   constructor(private qrServices: QrServiceService,
     private empleadoInfo: EmpleadoService,
     private cambioHorario: CambioHorarioService,
     private route: ActivatedRoute,
+    private router: Router,
     private authService: AuthService) {
 
     // Obtener el ID del usuario autenticado
@@ -56,7 +59,53 @@ export class NewSolicitudComponent {
       this.getAllEmpleados();
       this.getProyectsForEmployee(this.qrId);
       this.getEquiposById(this.qrId);
+
+      // Verificar si viene un ID de solicitud para editar
+      this.route.queryParams.subscribe(params => {
+        if (params['idCambioHorario']) {
+          this.isEditMode = true;
+          this.idCambioHorario = +params['idCambioHorario'];
+          this.cargarSolicitudParaEditar(this.idCambioHorario);
+        }
+      });
     }
+  }
+
+  cargarSolicitudParaEditar(idCambioHorario: number): void {
+    this.cambioHorario.getOnlySingleRecord(idCambioHorario).pipe(
+      tap(solicitud => {
+        console.log('Solicitud cargada para editar:', solicitud);
+        // Extraer diaCambio de la descripción o usar un valor predeterminado
+        let diaCambio = 'Seleccione un dia';
+        
+        // Mapear los datos de CambioHorarioConsultaInterface a CambioHorarioInterface
+        this.solicitudCambioHorario = {
+          idEmpleadoSolicitante: solicitud.idEmpleadoSolicitante,
+          idEmpleadoCambio: solicitud.idEmpleadoCambio,
+          diaCambio: diaCambio,
+          descripcion: solicitud.descripcion,
+          estado: solicitud.estado
+        };
+        
+        // Si necesitas pre-cargar más información, agrégala aquí
+        console.log('Solicitud mapeada:', this.solicitudCambioHorario);
+      }),
+      catchError(err => {
+        console.error('Error al cargar la solicitud:', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo cargar la solicitud para editar'
+        });
+        return throwError(err);
+      })
+    ).subscribe();
+  }
+
+  extraerDiaDeCambio(descripcion: string): string {
+    // Intenta extraer el día de la descripción si está en el formato esperado
+    // Si no puede, devuelve una cadena vacía
+    return '';
   }
 
 
@@ -145,33 +194,52 @@ export class NewSolicitudComponent {
   submitForm() {
     this.solicitudCambioHorario.estado = null;
 
+    const tituloModal = this.isEditMode ? 'actualizar' : 'enviar';
+    const textoConfirmacion = this.isEditMode 
+      ? '¿Estás seguro de actualizar la Solicitud?' 
+      : '¿Estás seguro de enviar la Solicitud?';
+
     Swal.fire({
-      title: "Estas seguro de enviar la Solicitud ?",
+      title: textoConfirmacion,
       showDenyButton: true,
       showCancelButton: true,
-      confirmButtonText: "Si",
+      confirmButtonText: "Sí",
       denyButtonText: `No estoy seguro`
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("Enviar!", "", "success");
-        this.cambioHorario.postNewRequestSchedule(this.solicitudCambioHorario).subscribe(
-          response => {
-            console.log('Respuesta del servidor:', response);
-            this.form.resetForm();
-          },
-          error => {
-            console.error('Error en la solicitud:', error);
-          }
-        )
+        if (this.isEditMode && this.idCambioHorario) {
+          // Actualizar solicitud existente
+          this.cambioHorario.putResponseSolicitud(this.solicitudCambioHorario, this.idCambioHorario).subscribe(
+            response => {
+              console.log('Respuesta del servidor:', response);
+              Swal.fire("¡Actualizado!", "La solicitud ha sido actualizada correctamente.", "success");
+              this.form.resetForm();
+              // Opcional: navegar de vuelta a la lista de solicitudes
+              this.router.navigate(['/solicitudes', this.qrId]);
+            },
+            error => {
+              console.error('Error en la solicitud:', error);
+              Swal.fire("Error", "No se pudo actualizar la solicitud", "error");
+            }
+          );
+        } else {
+          // Crear nueva solicitud
+          this.cambioHorario.postNewRequestSchedule(this.solicitudCambioHorario).subscribe(
+            response => {
+              console.log('Respuesta del servidor:', response);
+              Swal.fire("¡Enviado!", "La solicitud ha sido enviada correctamente.", "success");
+              this.form.resetForm();
+            },
+            error => {
+              console.error('Error en la solicitud:', error);
+              Swal.fire("Error", "No se pudo enviar la solicitud", "error");
+            }
+          );
+        }
       } else if (result.isDenied) {
         Swal.fire("Cambios no guardados", "", "info");
       }
     });
-
-
-
-
-
   }
 
 }

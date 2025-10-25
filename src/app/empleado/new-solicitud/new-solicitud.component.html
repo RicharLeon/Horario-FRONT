@@ -3,9 +3,15 @@
 <div class="container col-xl-10 col-xxl-8 px-4 py-2">
     <div class="row align-items-center g-lg-5 py-5">
       <div class="col-lg-7 text-center text-lg-start">
-        <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Solicitar cambio de turno</h1>
-        <p class="col-lg-10 fs-4">"Este formulario está destinado para solicitar cambios de horario. Por favor,
-          especifique el día al que desea cambiar el horario en la descripción correspondiente."</p>
+        <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">
+          {{ isEditMode ? 'Editar solicitud de cambio de turno' : 'Solicitar cambio de turno' }}
+        </h1>
+        <p class="col-lg-10 fs-4">
+          {{ isEditMode 
+            ? 'Modifique los datos de su solicitud de cambio de horario.' 
+            : '"Este formulario está destinado para solicitar cambios de horario. Por favor, especifique el día al que desea cambiar el horario en la descripción correspondiente."' 
+          }}
+        </p>
           <button class="button mt-2" [routerLink]="['/solicitudes', qrModel?.idEmpleado]">
             Regresar
           </button>
@@ -48,7 +54,9 @@
             <label for="Descripcion">Descripción de la Solicitud</label>
           </div>
           <div class="flex justify-center space-x-4">
-            <button class=" button" type="submit" [disabled]="!form.valid || !solicitudCambioHorario.idEmpleadoCambio || solicitudCambioHorario.diaCambio === 'Seleccione un dia' || !solicitudCambioHorario.descripcion">Solicitar</button>
+            <button class="button" type="submit" [disabled]="!form.valid || !solicitudCambioHorario.idEmpleadoCambio || solicitudCambioHorario.diaCambio === 'Seleccione un dia' || !solicitudCambioHorario.descripcion">
+              {{ isEditMode ? 'Actualizar' : 'Solicitar' }}
+            </button>
           </div>
 
           <hr class="my-4">

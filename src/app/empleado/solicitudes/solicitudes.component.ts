@@ -202,6 +202,10 @@ export class SolicitudesComponent implements OnInit {
     this.router.navigate(['/resonder-solicitud', this.qrId], { queryParams: { idCambioHorario: cambio.idCambioHorario } });
   }
 
+  editarSolicitud(cambio: CambioHorarioConsultaInterface): void {
+    this.router.navigate(['/new-solicitud', this.qrId], { queryParams: { idCambioHorario: cambio.idCambioHorario } });
+  }
+
   solicitarEitar(cambio: CambioHorarioConsultaInterface): void {
     this.router.navigate(['/solicitud-edicion', this.qrId], { queryParams: { idCambioHorario: cambio.idCambioHorario } });
   }

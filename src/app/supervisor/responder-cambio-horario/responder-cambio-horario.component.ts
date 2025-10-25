@@ -130,7 +130,7 @@ export class ResponderCambioHorarioComponent {
             showConfirmButton: false,
             timer: 1500
           });
-          this.router.navigate(['/solicitudes']);
+          this.router.navigate(['/solicitudes', this.qrId]);
         },
         error => {
           console.error('Error en la solicitud:', error);
