@@ -26,7 +26,7 @@ const routes: Routes = [
   {path: 'menu/:id', component: MenuComponent, canActivate: [EmpleadoGuardService]},
   {path: 'new-solicitud/:id', component: NewSolicitudComponent, canActivate: [EmpleadoGuardService]},
   {path: 'solicitudes/:id', component: SolicitudesComponent, canActivate: [EmpleadoGuardService]},
-  {path: 'calendario/:id', component: CalendarioComponent, canActivate: [EmpleadoGuardService]},
+  {path: 'calendario', component: CalendarioComponent, canActivate: [EmpleadoGuardService]},
   {path: 'ejemplo/:id', component: EjemploTablasComponent, canActivate: [EmpleadoGuardService]},
   {path: 'solicitud-edicion/:id', component: SolicitudEdicionComponent, canActivate: [EmpleadoGuardService]},
   

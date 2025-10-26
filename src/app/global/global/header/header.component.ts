@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
 import { MenuInterface } from 'src/app/models/menu.interface';
+import { AuthService } from 'src/app/services/auth.service';
 import { DynamicRoutesService } from 'src/app/services/dynamic-routes.service';
 import { MenuService } from 'src/app/services/menu.service';
 
@@ -13,13 +14,15 @@ import { MenuService } from 'src/app/services/menu.service';
 export class HeaderComponent implements OnInit{
 
   @Input() idEmpelado: number | undefined ;
+  idUser: number | null = null;
+  
 
   constructor(private menuServices: MenuService, private router: Router,
-    private dynamicRoutesService: DynamicRoutesService
+    private dynamicRoutesService: DynamicRoutesService, private authService: AuthService
   ){}
 
   ngOnInit(): void {
-    
+    this.idUser = this.authService.getUserId();
     this.getMenuGrupo("Funcionario Administrador");
     
   }
@@ -79,7 +82,7 @@ export class HeaderComponent implements OnInit{
 
   returnMenu(){
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/inicio/', this.idEmpelado]);
+      this.router.navigate(['/inicio/', this.idUser]);
     });
     
   }
