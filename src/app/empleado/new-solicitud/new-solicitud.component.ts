@@ -35,7 +35,7 @@ export class NewSolicitudComponent {
   qrId: number | null = null; // ID del usuario en sesión
   isEditMode: boolean = false; // Indicador de modo edición
   idCambioHorario: number | null = null; // ID de la solicitud a editar
-  
+
   constructor(private qrServices: QrServiceService,
     private empleadoInfo: EmpleadoService,
     private cambioHorario: CambioHorarioService,
@@ -45,7 +45,7 @@ export class NewSolicitudComponent {
 
     // Obtener el ID del usuario autenticado
     this.qrId = this.authService.getUserId();
-    
+
     this.solicitudCambioHorario = {
       idEmpleadoSolicitante: this.qrId || 0,
       estado: null
@@ -77,7 +77,7 @@ export class NewSolicitudComponent {
         console.log('Solicitud cargada para editar:', solicitud);
         // Extraer diaCambio de la descripción o usar un valor predeterminado
         let diaCambio = 'Seleccione un dia';
-        
+
         // Mapear los datos de CambioHorarioConsultaInterface a CambioHorarioInterface
         this.solicitudCambioHorario = {
           idEmpleadoSolicitante: solicitud.idEmpleadoSolicitante,
@@ -86,7 +86,7 @@ export class NewSolicitudComponent {
           descripcion: solicitud.descripcion,
           estado: solicitud.estado
         };
-        
+
         // Si necesitas pre-cargar más información, agrégala aquí
         console.log('Solicitud mapeada:', this.solicitudCambioHorario);
       }),
@@ -95,9 +95,10 @@ export class NewSolicitudComponent {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'No se pudo cargar la solicitud para editar'
+          text: err.error?.mensaje || 'Ocurrió un error al procesar la solicitud'
         });
-        return throwError(err);
+
+        return throwError(() => err);
       })
     ).subscribe();
   }
@@ -195,8 +196,8 @@ export class NewSolicitudComponent {
     this.solicitudCambioHorario.estado = null;
 
     const tituloModal = this.isEditMode ? 'actualizar' : 'enviar';
-    const textoConfirmacion = this.isEditMode 
-      ? '¿Estás seguro de actualizar la Solicitud?' 
+    const textoConfirmacion = this.isEditMode
+      ? '¿Estás seguro de actualizar la Solicitud?'
       : '¿Estás seguro de enviar la Solicitud?';
 
     Swal.fire({

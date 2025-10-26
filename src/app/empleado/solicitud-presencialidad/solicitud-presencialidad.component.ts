@@ -86,13 +86,14 @@ export class SolicitudPresencialidadComponent implements OnInit {
   onFechaChange(fecha: string): void {
     if (fecha) {
       this.consultarPuestosDisponibles(fecha);
+      console.log('Fecha seleccionada RRRRRR:', fecha);
     }
   }
 
   consultarPuestosDisponibles(fecha: string): void {
     this.cargandoPuestos = true;
     // Convertir fecha a formato ISO DateTime (agregar hora)
-    const fechaDateTime = `${fecha}T00:00:00`;
+    const fechaDateTime = `${fecha}`;
 
     this.asistenciaService.getAvailablePositions(fechaDateTime).pipe(
       tap(disponibles => {

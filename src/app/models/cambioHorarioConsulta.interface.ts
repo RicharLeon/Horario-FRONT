@@ -8,6 +8,7 @@ export interface CambioHorarioConsultaInterface {
     nombreEmpleadoCambio?: String,
     fechaSolicitud?: Date,
     estado?: boolean,
+    diaCambio?: String,
     descripcion?: String,
     mensaje?: String,
     content?: [],

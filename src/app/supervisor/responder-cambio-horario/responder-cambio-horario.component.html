@@ -12,49 +12,35 @@
         <label for="nombreEmpleadoSolicitante" class="block text-sm font-medium text-gray-700">
           Nombre del Empleado Solicitante
         </label>
-        <input
-          type="text"
-          id="nombreEmpleadoSolicitante"
-          name="nombreEmpleadoSolicitante"
-          [(ngModel)]="cambioHorario.nombreEmpleadoSolicitante"
-          class="input-basic-disable mt-2"
-          disabled
-        />
+        <input type="text" id="nombreEmpleadoSolicitante" name="nombreEmpleadoSolicitante"
+          [(ngModel)]="cambioHorario.nombreEmpleadoSolicitante" class="input-basic-disable mt-2" disabled />
       </div>
 
-      <input
-        type="hidden"
-        name="idEmpleadoAprobador"
-        [(ngModel)]="cambioHorario.idEmpleadoAprobador"
-        [value]="cambioHorario.idEmpleadoAprobador"
-      />
+      <input type="hidden" name="idEmpleadoAprobador" [(ngModel)]="cambioHorario.idEmpleadoAprobador"
+        [value]="cambioHorario.idEmpleadoAprobador" />
 
       <div class="mb-4">
         <label for="nombreEmpleadoAprobador" class="block text-sm font-medium text-gray-700">
           Nombre del Empleado Aprobador
         </label>
-        <input
-          type="text"
-          id="nombreEmpleadoAprobador"
-          name="nombreEmpleadoAprobador"
-          [(ngModel)]="cambioHorario.nombreEmpleadoAprobador"
-          class="input-basic-disable mt-2"
-          disabled
-        />
+        <input type="text" id="nombreEmpleadoAprobador" name="nombreEmpleadoAprobador"
+          [(ngModel)]="cambioHorario.nombreEmpleadoAprobador" class="input-basic-disable mt-2" disabled />
       </div>
 
       <div class="mb-4">
         <label for="nombreEmpleadoCambio" class="block text-sm font-medium text-gray-700">
           Nombre del Empleado Cambio
         </label>
-        <input
-          type="text"
-          id="nombreEmpleadoCambio"
-          name="nombreEmpleadoCambio"
-          [(ngModel)]="cambioHorario.nombreEmpleadoCambio"
-          class="input-basic-disable mt-2"
-          [disabled]="!esAdmin"
-        />
+        <input type="text" id="nombreEmpleadoCambio" name="nombreEmpleadoCambio"
+          [(ngModel)]="cambioHorario.nombreEmpleadoCambio" class="input-basic-disable mt-2" [disabled]="!esAdmin" />
+      </div>
+
+      <div class="mb-4">
+        <label for="diaCambio" class="block text-sm font-medium text-gray-700">
+          Día de Cambio
+        </label>
+        <input type="text" id="diaCambio" name="diaCambio" [(ngModel)]="cambioHorario.diaCambio"
+          class="input-basic-disable mt-2" disabled />
       </div>
 
       <!-- Solo se muestra si isAdmin es true -->
@@ -62,11 +48,7 @@
         <label for="estado" class="block text-sm font-medium text-gray-700">
           Estado
         </label>
-        <select
-          class="input-basic shadow-sm mt-2"
-          name="estado"
-          [(ngModel)]="cambioHorario.estado"
-        >
+        <select class="input-basic shadow-sm mt-2" name="estado" [(ngModel)]="cambioHorario.estado">
           <option value="" disabled selected>Selecciona una respuesta</option>
           <option [value]="true">Aceptar</option>
           <option [value]="false">Denegar</option>
@@ -77,15 +59,9 @@
         <label for="descripcion" class="block text-sm font-medium text-gray-700">
           Descripción
         </label>
-        <textarea
-          id="descripcion"
-          name="descripcion"
-          [(ngModel)]="cambioHorario.descripcion"
-          class="input-basic shadow-sm rounded-3xl mt-2"
-          rows="4"
-          placeholder="Escribe tu respuesta aquí..."
-          [disabled]="!esAdmin"
-        ></textarea>
+        <textarea id="descripcion" name="descripcion" [(ngModel)]="cambioHorario.descripcion"
+          class="input-basic shadow-sm rounded-3xl mt-2" rows="4" placeholder="Escribe tu respuesta aquí..."
+          [disabled]="!esAdmin"></textarea>
       </div>
     </form>
 

@@ -34,13 +34,14 @@ export class ResponderCambioHorarioComponent {
     
     // Obtener el ID del usuario autenticado
     this.qrId = this.authService.getUserId();
-    
+
     this.cambioHorario = {
       // ID DEL APROBADOR DEBE SER DE LA SESIÖN HACE FALTA
-      idEmpleadoAprobador: this.idempleadoAprobador,
+      idEmpleadoAprobador: this.qrId ?? 0,
       nombreEmpleadoSolicitante: '',
       nombreEmpleadoAprobador: '',
       nombreEmpleadoCambio: '',
+      fechaSolicitud: new Date(),  
       descripcion: '',
       estado: false
     };
@@ -54,6 +55,9 @@ export class ResponderCambioHorarioComponent {
           (cambio: CambioHorarioConsultaInterface) => {
             this.cambioHorario = cambio;
             console.log('Cambio de horario:', this.cambioHorario);
+            if (this.qrId) {
+            this.cambioHorario.idEmpleadoAprobador = this.qrId;
+          }
           },
           error => {
             console.error('Error al obtener el cambio de horario:', error);
