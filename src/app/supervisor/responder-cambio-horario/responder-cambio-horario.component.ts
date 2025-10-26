@@ -42,6 +42,7 @@ export class ResponderCambioHorarioComponent {
       nombreEmpleadoAprobador: '',
       nombreEmpleadoCambio: '',
       fechaSolicitud: new Date(),  
+      diaCambio: '',
       descripcion: '',
       estado: false
     };
