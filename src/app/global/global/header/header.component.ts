@@ -30,6 +30,7 @@ export class HeaderComponent implements OnInit{
   opcionesConSubmenus:any[]=[];
   menuGrupo: MenuInterface [] = [];
   showButton: boolean = false;
+  esAdministrador: boolean = false;
 
   showGetStartedButton(event: Event) {
     event.preventDefault(); // Evita el comportamiento predeterminado del enlace
@@ -48,9 +49,24 @@ export class HeaderComponent implements OnInit{
   getMenuGrupo(grupo: String){
     this.menuServices.getMenuPorGrupo(grupo).pipe(
       tap((info: any) => {
-        console.log(info, "datos menu");
+        console.log(info, "DATOS DEL MENU");
         if (Array.isArray(info)) {
-          this.menuGrupo = info;
+          // Verificar si el usuario es admin o supervisor
+          this.esAdministrador = this.authService.isAdmin() || this.authService.isSupervisor();
+          
+          // Filtrar menús según el rol del usuario
+          // ADMIN y SUPERVISOR: Ven todos los menús (incluidos los que tienen nombreMenuGrupo = 'ADMIN')
+          // EMPLEADOS: NO ven menús con nombreMenuGrupo = 'ADMIN'
+          this.menuGrupo = this.esAdministrador 
+            ? info // Admin y Supervisor ven todos los menús
+            : info.filter(menu => !menu.nombreMenuOpcion.includes('Reportes')); // Empleados NO ven menús ADMIN
+          
+          console.log('=== FILTRADO DE MENÚS ===');
+          console.log('Es Administrador/Supervisor:', this.esAdministrador);
+          console.log('Total de menús recibidos:', info.length);
+          console.log('Total de menús después del filtro:', this.menuGrupo.length);
+          console.log('Menús filtrados:', this.menuGrupo);
+          
           this.validationOfMenu();
 
           this.dynamicRoutesService.addDynamicRoutes(this.menuGrupo, this.idEmpelado);
