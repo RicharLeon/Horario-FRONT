@@ -13,6 +13,8 @@ import { SpinnerComponent } from './global/global/spinner/spinner.component';
 import { ResponderCambioHorarioComponent } from './supervisor/responder-cambio-horario/responder-cambio-horario.component';
 import { EjemploTablasComponent } from './empleado/ejemplo-tablas/ejemplo-tablas.component';
 import { SolicitudEdicionComponent } from './empleado/solicitud-edicion/solicitud-edicion.component';
+import { SolicitudPresencialidadComponent } from './empleado/solicitud-presencialidad/solicitud-presencialidad.component';
+import { ListaAsistenciasComponent } from './empleado/empleado/lista-asistencias/lista-asistencias.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { AdminGuardService } from './services/admin-guard.service';
 import { SupervisorGuardService } from './services/supervisor-guard.service';
@@ -29,6 +31,8 @@ const routes: Routes = [
   {path: 'calendario', component: CalendarioComponent, canActivate: [EmpleadoGuardService]},
   {path: 'ejemplo/:id', component: EjemploTablasComponent, canActivate: [EmpleadoGuardService]},
   {path: 'solicitud-edicion/:id', component: SolicitudEdicionComponent, canActivate: [EmpleadoGuardService]},
+  {path: 'solicitud-presencialidad/:id', component: SolicitudPresencialidadComponent, canActivate: [EmpleadoGuardService]},
+  {path: 'lista-asistencias/:id', component: ListaAsistenciasComponent, canActivate: [EmpleadoGuardService]},
   
   // Rutas de supervisor/admin (protegidas con SupervisorGuardService que permite SUPERVISOR y ADMIN)
   {path: 'menu-super', component: MenuSuperComponent, canActivate: [SupervisorGuardService]},

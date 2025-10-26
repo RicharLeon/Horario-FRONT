@@ -1,0 +1,91 @@
+<app-header></app-header>
+
+<div class="container col-xl-10 col-xxl-8 px-4 py-2">
+    <div class="row align-items-center g-lg-5 py-5">
+        <div class="col-lg-7 text-center text-lg-start">
+            <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">
+                Solicitar Asistencia Presencial
+            </h1>
+            <p class="col-lg-10 fs-4">
+                "Solicita tu asistencia presencial para trabajar desde la oficina. 
+                Verifica la disponibilidad de puestos antes de realizar tu solicitud."
+            </p>
+            <button class="button mt-2" (click)="verMisAsistencias()">
+                Ver mis solicitudes
+            </button>
+        </div>
+
+        <div class="col-md-10 mx-auto col-lg-5">
+            <form (ngSubmit)="submitForm()" #form="ngForm" class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+                
+                <!-- Campo oculto para ID del empleado -->
+                <input type="hidden" name="idEmpleado" [(ngModel)]="solicitudAsistencia.idEmpleado">
+
+                <!-- Nombre del empleado solicitante -->
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="nombreEmpleado"
+                        [value]="qrModel?.nombreEmpleado" disabled>
+                    <label for="nombreEmpleado">Empleado Solicitante</label>
+                </div>
+
+                <!-- Selector de fecha -->
+                <div class="form-floating mb-3">
+                    <input 
+                        type="date" 
+                        class="form-control" 
+                        id="fechaAsistencia"
+                        name="fechaAsistencia"
+                        [(ngModel)]="solicitudAsistencia.fechaAsistencia"
+                        [min]="fechaMinima"
+                        (change)="onFechaChange($any($event.target).value)"
+                        required>
+                    <label for="fechaAsistencia">Fecha de Asistencia</label>
+                </div>
+
+                <!-- Mostrar puestos disponibles -->
+                <div class="alert alert-info mb-3" *ngIf="solicitudAsistencia.fechaAsistencia">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <strong>Puestos disponibles:</strong>
+                            <span class="ms-2 fs-4" [ngClass]="{
+                                'text-success': puestosDisponibles > 5,
+                                'text-warning': puestosDisponibles > 0 && puestosDisponibles <= 5,
+                                'text-danger': puestosDisponibles === 0
+                            }">
+                                {{ cargandoPuestos ? 'Consultando...' : puestosDisponibles }}
+                            </span>
+                        </div>
+                        <mat-icon *ngIf="!cargandoPuestos" [ngClass]="{
+                            'text-success': puestosDisponibles > 5,
+                            'text-warning': puestosDisponibles > 0 && puestosDisponibles <= 5,
+                            'text-danger': puestosDisponibles === 0
+                        }">
+                            {{ puestosDisponibles > 0 ? 'check_circle' : 'cancel' }}
+                        </mat-icon>
+                    </div>
+                </div>
+
+                <!-- Estado (oculto pero para referencia) -->
+                <input type="hidden" name="estadoAsistencia" [(ngModel)]="solicitudAsistencia.estadoAsistencia">
+
+                <!-- Botón de envío -->
+                <div class="flex justify-center space-x-4">
+                    <button 
+                        class="button w-100" 
+                        type="submit" 
+                        [disabled]="!form.valid || !solicitudAsistencia.fechaAsistencia || puestosDisponibles === 0 || cargandoPuestos">
+                        <mat-icon>send</mat-icon>
+                        Solicitar Asistencia
+                    </button>
+                </div>
+
+                <hr class="my-4">
+                <small class="text-body-secondary">
+                    Al hacer clic en Solicitar, confirmas tu asistencia presencial para la fecha seleccionada.
+                </small>
+            </form>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

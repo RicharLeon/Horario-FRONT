@@ -36,6 +36,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { EjemploTablasComponent } from './empleado/ejemplo-tablas/ejemplo-tablas.component';
 import { SolicitudEdicionComponent } from './empleado/solicitud-edicion/solicitud-edicion.component';
+import { SolicitudPresencialidadComponent } from './empleado/solicitud-presencialidad/solicitud-presencialidad.component';
+import { ListaAsistenciasComponent } from './empleado/empleado/lista-asistencias/lista-asistencias.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { SolicitudEdicionComponent } from './empleado/solicitud-edicion/solicitu
     SpinnerComponent,
     ResponderCambioHorarioComponent,
     EjemploTablasComponent,
-    SolicitudEdicionComponent
+    SolicitudEdicionComponent,
+    SolicitudPresencialidadComponent,
+    ListaAsistenciasComponent
   ],
   imports: [
     BrowserModule,
