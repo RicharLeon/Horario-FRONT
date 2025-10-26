@@ -5,8 +5,8 @@
 
 <div class="container mx-auto mt-14 mb-16 overflow-x-auto ">
   <h2 class="text-2xl font-bold mb-4">Lista de Solicitudes</h2>
-  <table matSort class="min-w-full divide-y divide-gray-200"> 
-    
+  <table matSort class="min-w-full divide-y divide-gray-200">
+
     <thead>
       <tr>
         <ng-container *ngFor="let column of displayedColumns">
@@ -24,15 +24,30 @@
         <td class="px-6 py-4 whitespace-nowrap">{{ cambio.nombreEmpleadoAprobador }}</td>
         <td class="">{{ cambio.descripcion }}</td>
         <td class="px-6 py-4 whitespace-nowrap">{{ cambio.fechaSolicitud }}</td>
-        <td class="px-6 py-4 whitespace-nowrap">
-          <ng-container *ngIf="cambio.estado; else denegado">Aceptado</ng-container>
-          <ng-template #denegado>Denegado</ng-template>
+        <td class="px-6 py-4 whitespace-nowrap text-center">
+          <ng-container [ngSwitch]="cambio.estado">
+            <!-- ACEPTADO -->
+            <span *ngSwitchCase="true" class="px-3 py-1 rounded-full bg-green-500 text-white font-medium">
+              Aceptado
+            </span>
+
+            <!-- DENEGADO -->
+            <span *ngSwitchCase="false" class="px-3 py-1 rounded-full bg-red-500 text-white font-medium">
+              Denegado
+            </span>
+
+            <!-- PENDIENTE / NULO -->
+            <span *ngSwitchDefault class="px-3 py-1 rounded-full bg-gray-300 text-gray-700 font-medium">
+              Pendiente
+            </span>
+          </ng-container>
         </td>
+
         <td class="px-6 py-4 whitespace-nowrap block">
           <button *ngIf="esAdministrador" class="button py-2 px-4" (click)="responder2(cambio)">
             Responder
           </button>
-          <button *ngIf="!esAdministrador" class="button py-2 px-4 mt-2" (click)="editarSolicitud(cambio)">
+          <button *ngIf="!esAdministrador && cambio.estado !== true" class="button py-2 px-4 mt-2" (click)="editarSolicitud(cambio)">
             Editar
           </button>
           <button class="button py-2 px-4 mt-2" (click)="mostrarDetalleDeSolicitud(cambio)">
@@ -48,8 +63,8 @@
   <mat-paginator #paginator (page)="onPageChange($event)" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons>
   </mat-paginator>
   <div *ngIf="!esAdministrador"><button class="button mt-2" [routerLink]="['/new-solicitud', qrId]">
-    Nueva Solicitud
-  </button></div>
+      Nueva Solicitud
+    </button></div>
 </div>
 
 <app-footer></app-footer>
