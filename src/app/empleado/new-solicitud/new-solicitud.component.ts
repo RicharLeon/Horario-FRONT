@@ -220,7 +220,9 @@ export class NewSolicitudComponent {
             },
             error => {
               console.error('Error en la solicitud:', error);
-              Swal.fire("Error", "No se pudo actualizar la solicitud", "error");
+
+              const mensajeError = error?.error?.mensaje || "Ocurrió un error inesperado.";
+              Swal.fire("Error", mensajeError, "error");
             }
           );
         } else {
@@ -233,7 +235,9 @@ export class NewSolicitudComponent {
             },
             error => {
               console.error('Error en la solicitud:', error);
-              Swal.fire("Error", "No se pudo enviar la solicitud", "error");
+
+              const mensajeError = error?.error?.mensaje || "Ocurrió un error inesperado.";
+              Swal.fire("Error", mensajeError, "error");
             }
           );
         }
